@@ -1,0 +1,60 @@
+# Auto-Insight Platform Configuration
+
+app:
+  name: "Auto-Insight Platform"
+  version: "1.0.0"
+  page_title: "데이터 분석 플랫폼"
+  page_icon: "📊"
+  layout: "wide"
+
+# Analysis Settings
+analysis:
+  # RFM Analysis
+  rfm:
+    min_clusters: 3
+    max_clusters: 8
+    random_state: 42
+  
+  # Text Analysis
+  text:
+    max_features: 100  # For TF-IDF
+    n_topics: 5  # For LDA
+    min_word_length: 2
+    stopwords_file: null  # Optional custom stopwords
+  
+  # Outlier Detection
+  outlier:
+    method: "IQR"  # IQR or zscore
+    iqr_multiplier: 1.5
+    zscore_threshold: 3
+
+# File Upload Settings
+upload:
+  max_file_size_mb: 100
+  allowed_extensions:
+    - csv
+    - xlsx
+    - xls
+  encoding_detect: true
+
+# Report Settings
+report:
+  default_template: "professional"
+  include_raw_data: false
+  chart_format: "interactive"  # interactive or static
+
+# Visualization Settings
+visualization:
+  color_schemes:
+    primary: ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"]
+    sequential: "Blues"
+  figure_size:
+    width: 800
+    height: 600
+  dpi: 100
+
+# Performance Settings
+performance:
+  cache_ttl: 3600  # seconds
+  chunk_size: 10000  # rows for large file processing
+  memory_limit_mb: 4096

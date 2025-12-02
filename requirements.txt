@@ -1,0 +1,55 @@
+# Auto-Insight Platform - Main App Dependencies
+# Python 3.9+
+
+# Core Framework
+streamlit==1.30.0
+
+# Data Processing
+pandas==2.1.4
+numpy==1.24.3
+openpyxl==3.1.2  # Excel support
+
+# Machine Learning
+scikit-learn==1.3.2
+
+# NLP (Korean) - Phase 2
+konlpy==0.6.0  # 한국어 형태소 분석
+# JPype1==1.4.1  # KoNLPy 의존성 (자동 설치됨)
+
+# Text Analysis
+gensim==4.3.2  # 토픽 모델링
+wordcloud==1.9.3  # 워드 클라우드
+
+# AI / GPT (선택적 - 고급 분석용)
+openai==1.12.0  # GPT API
+
+# Sentiment Analysis (선택적 - KoBERT)
+# transformers==4.36.2
+# torch==2.1.2
+# sentencepiece==0.1.99
+
+# Visualization
+plotly==5.18.0
+matplotlib==3.8.2
+seaborn==0.13.0
+
+# Utilities
+pyyaml==6.0.1
+python-dateutil==2.8.2
+pytz==2023.3
+python-dotenv==1.0.0  # 환경변수 로드
+
+# Progress bars
+tqdm==4.66.1
+
+# Character encoding detection
+chardet==5.2.0
+
+# Fuzzy String Matching (컬럼 자동 매핑)
+fuzzywuzzy==0.18.0
+# python-Levenshtein==0.25.0  # fuzzywuzzy 성능 향상 (선택적, C++ 빌드 도구 필요)
+
+# Web Scraping (Phase 2 - 크롤링)
+selenium==4.16.0  # 웹 자동화
+webdriver-manager==4.0.1  # ChromeDriver 자동 관리
+undetected-chromedriver==3.5.5  # 봇 감지 우회

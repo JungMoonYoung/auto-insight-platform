@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(venvScriptspython.exe -m pip install python-dotenv)",
+      "Bash(venv/Scripts/python.exe -m streamlit:*)",
+      "Bash(ping:*)",
+      "Bash(nul)",
+      "Bash(dir:*)",
+      "Bash(copy:*)",
+      "Bash(cp:*)",
+      "Bash(venv\\Scripts\\python.exe:*)",
+      "Bash(timeout:*)",
+      "Bash(venv/Scripts/python.exe -m pip:*)",
+      "Bash(venv\\Scripts\\python.exe -m pip:*)",
+      "Bash(venv/Scripts/python.exe:*)",
+      "Bash(venvScriptspython.exe teststest_day31_sales_page.py)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

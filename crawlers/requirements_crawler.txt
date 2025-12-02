@@ -1,0 +1,21 @@
+# Auto-Insight Platform - Crawler Dependencies
+# Python 3.9+
+
+# Web Scraping
+beautifulsoup4==4.12.2
+selenium==4.16.0
+requests==2.31.0
+lxml==5.0.0
+
+# Browser Driver Management
+webdriver-manager==4.0.1
+
+# Data Processing
+pandas==2.1.4
+
+# CLI
+argparse  # Built-in, but listed for reference
+
+# Utilities
+tqdm==4.66.1
+python-dateutil==2.8.2
