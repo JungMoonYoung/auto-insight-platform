@@ -1,0 +1,49 @@
+# Streamlit Configuration for Auto-Insight Platform
+# Deployment: Streamlit Cloud
+# Last updated: 2025-02-09 (DAY 32)
+
+[theme]
+# Professional dark theme with gradient accents
+primaryColor = "#00f2fe"  # Cyan accent
+backgroundColor = "#0a0e27"  # Dark blue background
+secondaryBackgroundColor = "#14192d"  # Slightly lighter
+textColor = "#ffffff"  # White text
+font = "sans serif"
+
+[server]
+# Server settings
+headless = true  # Required for cloud deployment
+port = 8501  # Default Streamlit port
+enableCORS = false  # Disable CORS for cloud
+enableXsrfProtection = true  # Security: XSRF protection
+
+# File upload settings
+maxUploadSize = 200  # Max file size: 200MB
+maxMessageSize = 200  # Max message size: 200MB
+
+[browser]
+# Browser settings
+gatherUsageStats = false  # Privacy: Disable usage stats
+serverAddress = "localhost"  # Local development
+serverPort = 8501
+
+[runner]
+# Runner settings for faster execution
+magicEnabled = true  # Enable magic commands
+fastReruns = true  # Faster reruns
+
+[client]
+# Client settings
+showErrorDetails = true  # Show detailed errors (disable in production if needed)
+toolbarMode = "minimal"  # Minimal toolbar
+
+[logger]
+# Logging level
+level = "info"  # Options: "error", "warning", "info", "debug"
+
+# ==================== Deployment Notes ====================
+# 1. This config is optimized for Streamlit Cloud
+# 2. File upload limit: 200MB (adjust if needed)
+# 3. Dark theme matches app.py custom CSS
+# 4. XSRF protection enabled for security
+# 5. Error details shown for debugging (disable in production)

@@ -41,7 +41,9 @@ ENV/
 .env
 
 # Streamlit
-.streamlit/
+.streamlit/secrets.toml  # NEVER commit secrets!
+!.streamlit/config.toml  # Config is safe to commit
+!.streamlit/secrets.toml.example  # Example file is safe
 
 # Data files (user uploads)
 data/
