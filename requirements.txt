@@ -1,17 +1,17 @@
 # Auto-Insight Platform - Streamlit Cloud Deployment
 # Python 3.9+
-# Last updated: 2025-02-09 (DAY 32)
+# Last updated: 2025-12-04 (Python 3.13 compatible)
 
 # ==================== Core Framework ====================
-streamlit==1.30.0
+streamlit>=1.30.0
 
 # ==================== Data Processing ====================
-pandas==2.1.4
-numpy==1.24.3
-openpyxl==3.1.2  # Excel file support
+pandas>=2.0.0
+numpy>=1.26.0
+openpyxl>=3.1.2  # Excel file support
 
 # ==================== Machine Learning ====================
-scikit-learn==1.3.2
+scikit-learn>=1.3.0
 
 # ==================== NLP (Korean) ====================
 # Note: KoNLPy requires Java (JDK)
@@ -20,27 +20,27 @@ scikit-learn==1.3.2
 konlpy==0.6.0; platform_system != "Linux"  # Local only
 
 # ==================== Text Analysis ====================
-gensim==4.3.2  # Topic modeling (LDA)
-wordcloud==1.9.3  # Word cloud generation
+gensim>=4.3.0  # Topic modeling (LDA)
+wordcloud>=1.9.0  # Word cloud generation
 
 # ==================== AI / GPT ====================
-openai==1.12.0  # GPT API for insights
+openai>=1.12.0  # GPT API for insights
 
 # ==================== Visualization ====================
-plotly==5.18.0  # Interactive charts
-matplotlib==3.8.2  # Static charts
-seaborn==0.13.0  # Statistical visualization
+plotly>=5.18.0  # Interactive charts
+matplotlib>=3.8.0  # Static charts
+seaborn>=0.13.0  # Statistical visualization
 
 # ==================== Utilities ====================
-pyyaml==6.0.1  # Config file parsing
-python-dateutil==2.8.2  # Date handling
-pytz==2023.3  # Timezone support
-python-dotenv==1.0.0  # Environment variables
-chardet==5.2.0  # Encoding detection
-fuzzywuzzy==0.18.0  # Fuzzy string matching (column mapping)
+pyyaml>=6.0.0  # Config file parsing
+python-dateutil>=2.8.0  # Date handling
+pytz>=2023.3  # Timezone support
+python-dotenv>=1.0.0  # Environment variables
+chardet>=5.2.0  # Encoding detection
+fuzzywuzzy>=0.18.0  # Fuzzy string matching (column mapping)
 
 # ==================== Progress Indicators ====================
-tqdm==4.66.1
+tqdm>=4.66.0
 
 # ==================== Testing (Development Only) ====================
 # pytest==9.0.1  # Uncomment for local testing
