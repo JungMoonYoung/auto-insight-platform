@@ -996,8 +996,6 @@
 - README.md 대폭 업데이트
 - 프로젝트 소개 및 주요 기능
 - 빠른 시작 가이드 (배포/로컬)
-- 크롤링 사용 제한 설명
-- 면책 조항 추가
 - 기술 스택 나열
 - 프로젝트 구조 트리
 
@@ -1129,6 +1127,276 @@
 
 ---
 
+## 🔥 Phase 4: SQL 역량 강화 (DAY 34-36) - 포트폴리오 차별화
+
+**목표**: 데이터베이스 통합 및 SQL 쿼리 생성 기능 추가로 포트폴리오 경쟁력 향상
+
+**추가 기간**: 3일 (약 18시간)
+**완료 후 효과**: SQL 기본/중급/고급 역량 모두 증명 가능
+
+---
+
+### DAY 34 (Phase 4 시작) - SQLite 데이터베이스 통합 (1/3)
+
+**목표**: 크롤링 데이터 → SQLite 저장 파이프라인 구축
+
+**오전 작업 (4시간)**:
+- modules/db_manager.py 신규 생성 (300줄)
+  - DatabaseManager 클래스 설계
+  - SQLite 연결 관리 (context manager 패턴)
+  - 테이블 스키마 설계 및 생성
+    - `reviews` 테이블 (review_id, source, place_id, rating, review_text, author, review_date, image_count)
+    - `transactions` 테이블 (transaction_id, customer_id, invoice_date, quantity, unit_price, product)
+    - `sales` 테이블 (sales_id, sales_date, product, category, quantity, price)
+  - 인덱스 생성 (review_date, customer_id, sales_date 등)
+  - 테이블 스키마 검증 함수
+
+**오후 작업 (4시간)**:
+- CRUD 함수 구현
+  - `insert_reviews()` - 크롤링 데이터 삽입 (UPSERT 로직)
+  - `insert_transactions()` - E-commerce 데이터 삽입
+  - `insert_sales()` - 판매 데이터 삽입
+  - `get_data()` - SELECT 쿼리 실행 및 DataFrame 반환
+  - `delete_old_data()` - 특정 기간 이전 데이터 삭제
+- 크롤러 수정
+  - naver_place_crawler.py에 SQLite 저장 옵션 추가
+  - CSV + SQLite 병행 저장 (--save-db 플래그)
+- 테스트 작성 및 검증
+
+**체크리스트**:
+- [ ] DatabaseManager 클래스 완성
+- [ ] 3개 테이블 스키마 생성 작동
+- [ ] UPSERT 로직 테스트 (중복 데이터 처리)
+- [ ] 인덱스 성능 확인 (EXPLAIN QUERY PLAN)
+- [ ] 크롤러 → SQLite 저장 성공
+
+**산출물**:
+- modules/db_manager.py (300줄)
+- data/reviews.db (SQLite 파일)
+- tests/test_db_manager.py (150줄)
+
+**포트폴리오 증명 가능한 SQL 역량**:
+- ✅ CREATE TABLE (스키마 설계)
+- ✅ PRIMARY KEY, AUTOINCREMENT
+- ✅ CREATE INDEX (성능 최적화)
+- ✅ INSERT OR REPLACE (UPSERT)
+- ✅ 데이터 타입 선택 (TEXT, INTEGER, REAL, DATE, TIMESTAMP)
+
+---
+
+### DAY 35 - SQL 쿼리 생성기 구현 (2/3)
+
+**목표**: 분석 로직을 SQL 쿼리로 자동 변환하는 생성기 구현
+
+**오전 작업 (4시간)**:
+- modules/sql_query_generator.py 신규 생성 (500줄)
+  - SQLQueryGenerator 클래스 설계
+  - `generate_rfm_query()` - RFM 분석 SQL 생성
+    - CTE 3단계: (1) 고객별 RFM 계산, (2) NTILE 분위수, (3) 세그먼트 분류
+    - Window Functions 활용 (NTILE, ROW_NUMBER)
+    - CASE WHEN으로 비즈니스 로직 구현
+    - 주석 자동 생성 (-- 단계 설명)
+  - `generate_sales_trend_query()` - 매출 트렌드 SQL 생성
+    - 일별/주별/월별 집계 (DATE, strftime)
+    - 7일/30일 이동평균 (Window Functions: ROWS BETWEEN)
+    - 전월 대비 성장률 (LAG, LEAD)
+  - `generate_pareto_query()` - 파레토 분석 SQL 생성
+    - 상품별 매출 합계
+    - 누적 매출 계산 (SUM() OVER)
+    - 상위 80% 매출 제품 필터링
+
+**오후 작업 (4시간)**:
+- `generate_sentiment_query()` - 감성 분석 SQL 생성
+  - CASE WHEN으로 평점 기반 감성 분류
+  - LIKE 연산자로 키워드 매칭
+  - 감성별 집계 및 백분율 계산
+- `generate_top_customers_query()` - 상위 고객 조회 SQL
+  - ORDER BY, LIMIT
+  - 매출 기여도 계산
+- 쿼리 포맷팅 및 하이라이팅
+  - SQL 예쁘게 정렬 (sqlparse 라이브러리)
+  - 주석 자동 추가
+- 테스트: 생성된 SQL을 실제 SQLite에서 실행하여 결과 검증
+
+**체크리스트**:
+- [ ] RFM SQL 쿼리 생성 작동
+- [ ] 생성된 SQL이 실제 DB에서 실행 성공
+- [ ] Window Functions 정확히 구현
+- [ ] 매출 트렌드 SQL 작동
+- [ ] 파레토 분석 SQL 작동
+- [ ] 쿼리 주석 자동 생성
+
+**산출물**:
+- modules/sql_query_generator.py (500줄)
+- tests/test_sql_generator.py (200줄)
+- 예시 쿼리 파일 5개 (docs/sql_examples/*.sql)
+
+**포트폴리오 증명 가능한 SQL 역량**:
+- ✅ CTE (WITH 절) - 복잡한 쿼리 분해
+- ✅ Window Functions (NTILE, ROW_NUMBER, RANK, LAG, LEAD)
+- ✅ ROWS BETWEEN (이동평균)
+- ✅ SUM() OVER (누적 합계)
+- ✅ CASE WHEN (비즈니스 로직)
+- ✅ GROUP BY, HAVING
+- ✅ 서브쿼리 중첩
+- ✅ JOIN (필요 시)
+- ✅ 날짜 함수 (DATE, strftime, JULIANDAY)
+
+---
+
+### DAY 36 - Streamlit UI 통합 및 문서화 (3/3)
+
+**목표**: SQL 쿼리 생성 기능을 UI에 통합하고 포트폴리오 문서 작성
+
+**오전 작업 (4시간)**:
+- app.py 수정: SQL 쿼리 보기 기능 추가
+  - 각 분석 결과 페이지에 "📊 SQL 쿼리 보기" Expander 추가
+  - RFM 분석 결과 → RFM SQL 쿼리 표시
+  - 매출 분석 결과 → 매출 트렌드 SQL 쿼리 표시
+  - 감성 분석 결과 → 감성 분류 SQL 쿼리 표시
+  - st.code(sql_query, language='sql') 코드 하이라이팅
+  - "📋 쿼리 복사" 버튼 추가 (클립보드 복사)
+  - "▶️ 쿼리 실행" 버튼 추가 (SQLite에서 실행 후 결과 표시)
+- 데이터 소스 토글 기능
+  - "데이터 소스 선택" 라디오 버튼 (CSV vs SQLite)
+  - SQLite 선택 시 → SQL 쿼리로 데이터 로드
+  - CSV 선택 시 → 기존 pandas 방식
+
+**오후 작업 (4시간)**:
+- 문서화 및 포트폴리오 자료 작성
+  - docs/SQL_CAPABILITIES.md 신규 작성
+    - 프로젝트에서 사용한 SQL 기술 목록
+    - 각 쿼리 예시 및 설명
+    - 복잡한 쿼리 3개 강조 (RFM, 파레토, 이동평균)
+  - README.md 업데이트
+    - "SQL 데이터베이스 통합" 섹션 추가
+    - SQLite 사용법 가이드
+    - SQL 쿼리 생성 기능 소개
+  - 스크린샷 3장 추가
+    - SQL 쿼리 보기 화면
+    - SQLite 테이블 스키마 (DB Browser)
+    - 쿼리 실행 결과 화면
+- 최종 통합 테스트
+  - 크롤링 → SQLite 저장 → SQL 쿼리로 분석 → 시각화 전체 파이프라인
+  - CSV 업로드 → SQLite 저장 → SQL 쿼리 생성 테스트
+  - 배포 환경에서 SQLite 작동 확인
+
+**체크리스트**:
+- [ ] "SQL 쿼리 보기" 버튼 모든 분석 페이지에 추가
+- [ ] 코드 하이라이팅 작동
+- [ ] 쿼리 복사 버튼 작동
+- [ ] 쿼리 실행 버튼 작동 (결과 표시)
+- [ ] SQL_CAPABILITIES.md 작성 완료
+- [ ] README.md 업데이트 완료
+- [ ] 스크린샷 3장 추가
+- [ ] 전체 파이프라인 테스트 성공
+
+**산출물**:
+- app.py (SQL UI 통합, +150줄)
+- docs/SQL_CAPABILITIES.md (포트폴리오용 문서, 400줄)
+- README.md (SQL 섹션 추가, +100줄)
+- screenshots/sql_query_view.png (3장)
+
+---
+
+## 🎯 Phase 4 완료 후 포트폴리오 효과
+
+### ✅ 면접 시 강조 가능한 포인트
+
+1. **"저는 pandas뿐만 아니라 SQL로도 동일한 분석을 구현할 수 있습니다"**
+   - RFM 분석을 SQL CTE + Window Functions로 구현
+   - 이동평균, 파레토 분석 등 복잡한 비즈니스 로직을 SQL로 표현
+
+2. **"ETL 파이프라인 경험이 있습니다"**
+   - 크롤링 (Extract) → SQLite 저장 (Transform & Load) → 분석 (Query)
+   - 실무에서 많이 사용하는 데이터 파이프라인 구조
+
+3. **"성능 최적화를 고려합니다"**
+   - 인덱스 설계 (review_date, customer_id)
+   - EXPLAIN QUERY PLAN으로 쿼리 성능 분석
+   - Window Functions 활용으로 서브쿼리 최소화
+
+4. **"복잡한 SQL 쿼리를 작성할 수 있습니다"**
+   - CTE 3단계 중첩
+   - Window Functions (NTILE, ROW_NUMBER, LAG, SUM OVER)
+   - 동적 날짜 처리 (JULIANDAY, strftime)
+
+### 📊 증명 가능한 SQL 역량 전체 목록
+
+#### 기본 SQL (DDL, DML)
+- ✅ CREATE TABLE (스키마 설계)
+- ✅ INSERT, UPDATE, DELETE
+- ✅ INSERT OR REPLACE (UPSERT)
+- ✅ CREATE INDEX
+- ✅ PRIMARY KEY, FOREIGN KEY
+- ✅ 데이터 타입 선택
+
+#### 중급 SQL (집계, 조인)
+- ✅ SELECT, WHERE, ORDER BY, LIMIT
+- ✅ GROUP BY, HAVING
+- ✅ COUNT, SUM, AVG, MAX, MIN
+- ✅ DISTINCT
+- ✅ LIKE, BETWEEN, IN
+- ✅ 날짜 함수 (DATE, strftime, JULIANDAY)
+- ✅ CASE WHEN (조건부 로직)
+
+#### 고급 SQL (서브쿼리, CTE, Window Functions)
+- ✅ CTE (WITH 절) - 복잡한 쿼리 분해
+- ✅ 서브쿼리 (스칼라, 인라인 뷰)
+- ✅ Window Functions:
+  - ✅ NTILE (분위수)
+  - ✅ ROW_NUMBER, RANK, DENSE_RANK
+  - ✅ LAG, LEAD (이전/다음 행)
+  - ✅ SUM() OVER (누적 합계)
+  - ✅ AVG() OVER (이동평균)
+  - ✅ ROWS BETWEEN (범위 지정)
+- ✅ 복잡한 JOIN (필요 시)
+- ✅ 쿼리 최적화 (EXPLAIN QUERY PLAN)
+
+### 📈 예상 투자 시간 대비 효과
+
+| 항목 | 투자 시간 | 포트폴리오 임팩트 |
+|------|----------|------------------|
+| SQLite 통합 | 8시간 | ⭐⭐⭐⭐ (기본 CRUD 증명) |
+| SQL 쿼리 생성기 | 8시간 | ⭐⭐⭐⭐⭐ (고급 쿼리 증명) |
+| UI 통합 + 문서화 | 8시간 | ⭐⭐⭐⭐⭐ (시각적 증명) |
+| **총합** | **24시간 (3일)** | **⭐⭐⭐⭐⭐** |
+
+**ROI 분석**: 3일 투자로 SQL 기본/중급/고급 역량 모두 증명 가능 → 백엔드/데이터 엔지니어 포지션 경쟁력 대폭 상승
+
+---
+
+## 📋 Phase 4 최종 체크리스트
+
+### 기능 완성도
+- [ ] SQLite 데이터베이스 3개 테이블 생성
+- [ ] 크롤링 데이터 → SQLite 자동 저장
+- [ ] RFM 분석 SQL 쿼리 생성 작동
+- [ ] 매출 분석 SQL 쿼리 생성 작동
+- [ ] 감성 분석 SQL 쿼리 생성 작동
+- [ ] Streamlit UI에 "SQL 쿼리 보기" 버튼 추가
+- [ ] 쿼리 복사/실행 기능 작동
+
+### 문서화
+- [ ] docs/SQL_CAPABILITIES.md 작성
+- [ ] README.md SQL 섹션 추가
+- [ ] 스크린샷 3장 추가
+- [ ] 예시 SQL 쿼리 5개 저장
+
+### 테스트
+- [ ] 크롤링 → SQLite → SQL 분석 파이프라인 성공
+- [ ] CSV 업로드 → SQLite 변환 성공
+- [ ] 생성된 SQL 쿼리 실행 성공
+- [ ] 배포 환경에서 SQLite 작동 확인
+
+### 포트폴리오
+- [ ] SQL 역량 증명 자료 준비 (쿼리 예시)
+- [ ] 면접 시 설명 가능한 복잡한 쿼리 3개 선정
+- [ ] GitHub README에 SQL 기능 강조
+- [ ] 이력서에 "SQL 쿼리 생성 자동화" 추가 가능
+
+---
+
 **작성**: Claude (AI Assistant)
 **실행**: 사용자
-**목표 완료일**: 2025-02-10 (DAY 33)
+**목표 완료일**: 2025-02-10 (DAY 33) → 2025-02-13 (DAY 36, Phase 4 포함)

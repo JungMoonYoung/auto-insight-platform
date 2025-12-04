@@ -12,6 +12,7 @@ CSV/Excel 파일을 업로드하면 AI가 자동으로 분석하고 인사이트
 - 🛒 **E-commerce 분석**: RFM 분석, 고객 세분화, 구매 패턴 발견
 - 📈 **매출 분석**: 시계열 트렌드, 상품별 성과, ABC 분석
 - 💬 **리뷰 분석**: 감성 분석, 토픽 모델링, 키워드 추출
+- 🔍 **SQL Analytics**: SQLite 기반 고급 쿼리 분석 (CTE, Window Functions)
 - 📊 **인터랙티브 대시보드**: Plotly 기반 동적 차트
 - 📄 **HTML 리포트 자동 생성**: 전문가 수준의 분석 리포트
 - 🕷️ **웹 크롤링**: 네이버 영화/웹툰 등 데이터 자동 수집
@@ -215,6 +216,47 @@ pip install streamlit==1.30.0
 1. 이슈를 등록하여 개선 사항 제안
 2. Pull Request로 코드 기여
 3. 버그 리포트 및 피드백 제공
+
+## 🔍 SQL Analytics (Phase 4)
+
+### SQLite 데이터베이스 통합
+
+프로젝트에는 SQLite 데이터베이스가 통합되어 고급 SQL 쿼리로 데이터를 분석할 수 있습니다.
+
+#### 주요 기능
+
+1. **데이터베이스 자동 저장**
+   - 크롤링 데이터를 SQLite에 자동 저장
+   - CSV/Excel 업로드 데이터도 DB 저장 가능
+
+2. **SQL 쿼리 자동 생성**
+   - RFM 분석 (CTE 3단계 중첩)
+   - 매출 트렌드 (Window Functions: LAG, 이동평균)
+   - 파레토 분석 (누적 합계, ROW_NUMBER)
+   - 감성 분석 (CASE WHEN)
+
+3. **고급 SQL 기술**
+   - ✅ CTE (Common Table Expressions)
+   - ✅ Window Functions (NTILE, LAG, ROW_NUMBER, SUM OVER)
+   - ✅ Window Frame (ROWS BETWEEN)
+   - ✅ Date Functions (JULIANDAY)
+   - ✅ Aggregate Functions
+   - ✅ Subquery
+
+#### 사용 방법
+
+```bash
+# 샘플 데이터 생성
+python utils/generate_sample_data.py
+
+# Streamlit 앱에서 SQL Analytics 페이지 접속
+streamlit run app.py
+# → 4_SQL_Analytics 페이지 선택
+```
+
+자세한 SQL 기능은 `docs/SQL_PORTFOLIO_GUIDE.md`를 참고하세요.
+
+---
 
 ## 📜 라이선스
 
