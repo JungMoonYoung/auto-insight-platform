@@ -48,17 +48,27 @@ class SQLQueryGenerator:
 
     def _format_query(self, query: str) -> str:
         """
-        SQL 쿼리 포맷팅 (들여쓰기 정리)
+        SQL 쿼리 포맷팅 (들여쓰기 정리 및 주석 제거)
 
         Args:
             query: 원본 SQL 쿼리
 
         Returns:
-            str: 포맷팅된 SQL 쿼리
+            str: 포맷팅된 SQL 쿼리 (주석 제거됨)
         """
-        # 간단한 포맷팅 (줄바꿈 정리)
         lines = query.strip().split('\n')
-        formatted_lines = [line.strip() for line in lines if line.strip()]
+        formatted_lines = []
+
+        for line in lines:
+            stripped = line.strip()
+            # 주석 라인 제거 (-- 로 시작하는 라인)
+            if stripped.startswith('--'):
+                continue
+            # 빈 줄 제거
+            if not stripped:
+                continue
+            formatted_lines.append(stripped)
+
         return '\n'.join(formatted_lines)
 
     # ==================== RFM 분석 SQL ====================
@@ -505,9 +515,9 @@ WITH review_sentiment AS (
         review_date,
         -- 평점 기반 감성 분류
         CASE
-            WHEN rating >= 8 THEN 'positive'
-            WHEN rating >= 5 THEN 'neutral'
-            WHEN rating < 5 THEN 'negative'
+            WHEN rating >= 8 THEN '긍정'
+            WHEN rating >= 5 THEN '중립'
+            WHEN rating < 5 THEN '부정'
             ELSE 'unknown'
         END AS sentiment_by_rating,
         -- 키워드 기반 감성 점수
@@ -520,9 +530,9 @@ WITH review_sentiment AS (
         END AS keyword_score,
         -- 최종 감성 (평점 + 키워드 결합)
         CASE
-            WHEN rating >= 8 OR review_text LIKE '%좋%' OR review_text LIKE '%최고%' THEN 'positive'
-            WHEN rating <= 3 OR review_text LIKE '%나쁘%' OR review_text LIKE '%최악%' THEN 'negative'
-            ELSE 'neutral'
+            WHEN rating >= 8 OR review_text LIKE '%좋%' OR review_text LIKE '%최고%' THEN '긍정'
+            WHEN rating <= 3 OR review_text LIKE '%나쁘%' OR review_text LIKE '%최악%' THEN '부정'
+            ELSE '중립'
         END AS final_sentiment
     FROM {self.table_prefix}reviews
     WHERE review_text IS NOT NULL
@@ -540,9 +550,9 @@ FROM review_sentiment
 GROUP BY final_sentiment
 ORDER BY
     CASE final_sentiment
-        WHEN 'positive' THEN 1
-        WHEN 'neutral' THEN 2
-        WHEN 'negative' THEN 3
+        WHEN '긍정' THEN 1
+        WHEN '중립' THEN 2
+        WHEN '부정' THEN 3
         ELSE 4
     END;
 
