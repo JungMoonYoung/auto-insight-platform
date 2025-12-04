@@ -198,115 +198,6 @@ ORDER BY rfm_score DESC, monetary DESC;
 """
         return self._format_query(query)
 
-    def generate_rfm_summary_query(
-        self,
-        reference_date: Optional[str] = None,
-        max_score: int = 5
-    ) -> str:
-        """
-        RFM 세그먼트별 요약 통계 SQL 쿼리
-
-        Args:
-            reference_date: 기준일 (YYYY-MM-DD), None이면 현재 날짜
-            max_score: 최대 RFM 점수 (기본: 5)
-
-        Returns:
-            str: 세그먼트별 요약 SQL
-
-        SQL 역량 증명:
-            - CTE 재사용
-            - GROUP BY, COUNT, AVG, SUM
-            - 서브쿼리로 전체 집계
-            - ORDER BY
-        """
-        if reference_date is None:
-            reference_date = datetime.now().strftime('%Y-%m-%d')
-        else:
-            reference_date = self._validate_date(reference_date)
-
-        if not 1 <= max_score <= 10:
-            raise ValueError(f"max_score must be between 1 and 10, got {max_score}")
-
-        query = f"""
--- ============================================================
--- RFM 세그먼트별 요약 통계
--- 생성일: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
--- 기준일: {reference_date}
--- ============================================================
-
--- Step 1: 고객별 RFM 계산 (재사용)
-WITH customer_rfm AS (
-    SELECT
-        customer_id,
-        CAST(JULIANDAY('{reference_date}') - JULIANDAY(MAX(invoice_date)) AS INTEGER) AS recency,
-        COUNT(*) AS frequency,
-        ROUND(SUM(quantity * unit_price), 2) AS monetary
-    FROM {self.table_prefix}transactions
-    WHERE quantity > 0
-      AND unit_price > 0
-      AND invoice_date <= '{reference_date}'
-    GROUP BY customer_id
-    HAVING monetary > 0
-),
-
--- Step 2: RFM 점수 계산
-rfm_scores AS (
-    SELECT
-        customer_id,
-        recency,
-        frequency,
-        monetary,
-        NTILE({max_score}) OVER (ORDER BY recency ASC) AS r_score,
-        NTILE({max_score}) OVER (ORDER BY frequency DESC) AS f_score,
-        NTILE({max_score}) OVER (ORDER BY monetary DESC) AS m_score
-    FROM customer_rfm
-),
-
--- Step 3: 세그먼트 분류
-customer_segments AS (
-    SELECT
-        customer_id,
-        recency,
-        frequency,
-        monetary,
-        r_score,
-        f_score,
-        m_score,
-        CASE
-            WHEN r_score >= 4 AND f_score >= 4 AND m_score >= 4 THEN 'VIP 고객'
-            WHEN r_score >= 4 AND (f_score >= 3 OR m_score >= 3) THEN '충성 고객'
-            WHEN r_score >= 3 AND f_score >= 3 THEN '잠재 우수 고객'
-            WHEN r_score <= 2 AND (f_score >= 3 OR m_score >= 3) THEN '이탈 위험 고객'
-            WHEN r_score <= 2 AND f_score <= 2 THEN '휴면 고객'
-            WHEN f_score <= 2 AND m_score <= 2 THEN '신규/일회성 고객'
-            ELSE '일반 고객'
-        END AS segment
-    FROM rfm_scores
-)
-
--- 세그먼트별 요약 통계
-SELECT
-    segment AS '고객 세그먼트',
-    COUNT(*) AS '고객 수',
-    ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM customer_segments), 2) AS '비율 (%)',
-    ROUND(AVG(recency), 1) AS '평균 Recency',
-    ROUND(AVG(frequency), 1) AS '평균 Frequency',
-    ROUND(AVG(monetary), 2) AS '평균 Monetary',
-    ROUND(SUM(monetary), 2) AS '총 매출',
-    ROUND(SUM(monetary) * 100.0 / (SELECT SUM(monetary) FROM customer_segments), 2) AS '매출 기여도 (%)'
-FROM customer_segments
-GROUP BY segment
-ORDER BY SUM(monetary) DESC;
-
--- ============================================================
--- 포트폴리오 증명 포인트:
--- 1. CTE 재사용 (중복 코드 없이 깔끔한 구조)
--- 2. 서브쿼리로 전체 집계 ((SELECT COUNT(*) FROM ...))
--- 3. 백분율 계산
--- ============================================================
-"""
-        return self._format_query(query)
-
     # ==================== 매출 분석 SQL ====================
 
     def generate_sales_trend_query(
@@ -627,7 +518,6 @@ LIMIT {limit};
         """
         return {
             'rfm_analysis': self.generate_rfm_query(),
-            'rfm_summary': self.generate_rfm_summary_query(),
             'sales_trend_daily': self.generate_sales_trend_query(period='daily'),
             'sales_trend_monthly': self.generate_sales_trend_query(period='monthly'),
             'pareto_analysis': self.generate_pareto_query(),

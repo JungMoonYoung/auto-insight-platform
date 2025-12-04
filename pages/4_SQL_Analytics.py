@@ -95,7 +95,6 @@ st.sidebar.title("📋 SQL 쿼리 선택")
 
 query_options = {
     "RFM 분석": "rfm_analysis",
-    "RFM 세그먼트 요약": "rfm_summary",
     "일별 매출 트렌드": "sales_trend_daily",
     "월별 매출 트렌드": "sales_trend_monthly",
     "파레토 분석 (상위 상품)": "pareto_analysis",
@@ -115,7 +114,7 @@ st.sidebar.markdown("---")
 st.sidebar.subheader("⚙️ 파라미터 설정")
 
 # RFM 분석 파라미터
-if selected_query_type in ['rfm_analysis', 'rfm_summary']:
+if selected_query_type == 'rfm_analysis':
     reference_date = st.sidebar.date_input(
         "기준일",
         value=pd.Timestamp.now()
@@ -193,8 +192,6 @@ st.subheader(f"📊 {selected_query_name}")
 try:
     if selected_query_type == 'rfm_analysis':
         query = sql_gen.generate_rfm_query(reference_date=reference_date, max_score=max_score)
-    elif selected_query_type == 'rfm_summary':
-        query = sql_gen.generate_rfm_summary_query(reference_date=reference_date, max_score=max_score)
     elif selected_query_type == 'sales_trend_daily':
         query = sql_gen.generate_sales_trend_query(period='daily', moving_average_days=moving_avg_days)
     elif selected_query_type == 'sales_trend_monthly':
@@ -274,45 +271,8 @@ if 'query_result' in st.session_state and st.session_state.query_result is not N
                 )
                 st.plotly_chart(fig2, use_container_width=True)
 
-        # RFM 요약 시각화
-        elif query_type == 'rfm_summary':
-            col1, col2 = st.columns(2)
-
-            with col1:
-                # 세그먼트별 고객 수
-                fig1 = px.bar(
-                    df_result,
-                    x='세그먼트',
-                    y='고객 수',
-                    title='세그먼트별 고객 수',
-                    color='고객 수',
-                    color_continuous_scale='Plasma'
-                )
-                fig1.update_layout(
-                    plot_bgcolor='rgba(0,0,0,0)',
-                    paper_bgcolor='rgba(0,0,0,0)',
-                    font_color='white'
-                )
-                st.plotly_chart(fig1, use_container_width=True)
-
-            with col2:
-                # 매출 기여도
-                fig2 = px.pie(
-                    df_result,
-                    values='총 매출',
-                    names='세그먼트',
-                    title='세그먼트별 매출 기여도',
-                    color_discrete_sequence=px.colors.sequential.Viridis
-                )
-                fig2.update_layout(
-                    plot_bgcolor='rgba(0,0,0,0)',
-                    paper_bgcolor='rgba(0,0,0,0)',
-                    font_color='white'
-                )
-                st.plotly_chart(fig2, use_container_width=True)
-
         # 매출 트렌드 시각화
-        elif query_type in ['sales_trend_daily', 'sales_trend_monthly']:
+        if query_type in ['sales_trend_daily', 'sales_trend_monthly']:
             # 시계열 차트
             fig = go.Figure()
 
