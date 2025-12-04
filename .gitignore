@@ -52,6 +52,8 @@ uploads/
 *.xlsx
 *.xls
 !tests/sample_data.csv
+# Exception: Allow analytics.db for Streamlit Cloud
+!data/analytics.db
 
 # Output files
 output/
