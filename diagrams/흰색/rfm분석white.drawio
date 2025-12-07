@@ -1,0 +1,49 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.4">
+  <diagram name="페이지-1" id="xkxZpx85OFRXO7oFfcrI">
+    <mxGraphModel dx="946" dy="563" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="OJHO17oA2pS5DswcHvdY-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;" value="[거래 데이터]&lt;br&gt;CustomerID | InvoiceDate | Quantity | UnitPrice" vertex="1">
+          <mxGeometry height="60" width="320" x="240" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="OJHO17oA2pS5DswcHvdY-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;align=center;verticalAlign=top;" value="&lt;b&gt;[Step 1: RFM 지표 계산]&lt;/b&gt;&lt;br&gt;• Recency = 현재일 - MAX(InvoiceDate)&lt;br&gt;• Frequency = COUNT(InvoiceNo)&lt;br&gt;• Monetary = SUM(Quantity × UnitPrice)" vertex="1">
+          <mxGeometry height="90" width="400" x="200" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="OJHO17oA2pS5DswcHvdY-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;align=center;verticalAlign=top;" value="&lt;b&gt;[Step 2: 데이터 정규화]&lt;/b&gt;&lt;br&gt;• StandardScaler 적용&lt;br&gt;• 차원 축소 (선택적)" vertex="1">
+          <mxGeometry height="80" width="320" x="240" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="OJHO17oA2pS5DswcHvdY-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;align=center;verticalAlign=top;" value="&lt;b&gt;[Step 3: 최적 군집 수 결정]&lt;/b&gt;&lt;br&gt;• K = 3~8 범위 테스트&lt;br&gt;• Silhouette Score 계산&lt;br&gt;• 최고점 선택" vertex="1">
+          <mxGeometry height="90" width="320" x="240" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="OJHO17oA2pS5DswcHvdY-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;align=center;verticalAlign=top;" value="&lt;b&gt;[Step 4: K-Means 군집화]&lt;/b&gt;&lt;br&gt;• 최적 K로 군집 실행&lt;br&gt;• 각 고객에게 세그먼트 라벨 부여" vertex="1">
+          <mxGeometry height="80" width="320" x="240" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="OJHO17oA2pS5DswcHvdY-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;align=center;verticalAlign=top;" value="&lt;b&gt;[Step 5: 세그먼트 네이밍]&lt;/b&gt;&lt;br&gt;R높고 F높음 → &quot;VIP 고객&quot;&lt;br&gt;R높고 F낮음 → &quot;신규 고객&quot;&lt;br&gt;R낮음 → &quot;이탈 위험 고객&quot;&lt;br&gt;else → &quot;일반 고객&quot;" vertex="1">
+          <mxGeometry height="100" width="360" x="220" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="OJHO17oA2pS5DswcHvdY-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;align=center;verticalAlign=top;" value="&lt;b&gt;[Step 6: 시각화]&lt;/b&gt;&lt;br&gt;• 3D Scatter Plot (R-F-M 공간)&lt;br&gt;• 군집별 평균 비교 차트&lt;br&gt;• 세그먼트 분포 Pie Chart" vertex="1">
+          <mxGeometry height="90" width="360" x="220" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="OJHO17oA2pS5DswcHvdY-8" edge="1" parent="1" source="OJHO17oA2pS5DswcHvdY-1" target="OJHO17oA2pS5DswcHvdY-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OJHO17oA2pS5DswcHvdY-9" edge="1" parent="1" source="OJHO17oA2pS5DswcHvdY-2" target="OJHO17oA2pS5DswcHvdY-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OJHO17oA2pS5DswcHvdY-10" edge="1" parent="1" source="OJHO17oA2pS5DswcHvdY-3" target="OJHO17oA2pS5DswcHvdY-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OJHO17oA2pS5DswcHvdY-11" edge="1" parent="1" source="OJHO17oA2pS5DswcHvdY-4" target="OJHO17oA2pS5DswcHvdY-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OJHO17oA2pS5DswcHvdY-12" edge="1" parent="1" source="OJHO17oA2pS5DswcHvdY-5" target="OJHO17oA2pS5DswcHvdY-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OJHO17oA2pS5DswcHvdY-13" edge="1" parent="1" source="OJHO17oA2pS5DswcHvdY-6" target="OJHO17oA2pS5DswcHvdY-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

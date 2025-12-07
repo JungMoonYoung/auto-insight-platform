@@ -1,0 +1,37 @@
+graph TB
+    Extract[데이터 수집<br/>EXTRACT<br/>CSV + Web Crawling]
+
+    Load[데이터 로딩<br/>Load<br/>Encoding Detection]
+
+    Validate[데이터 검증<br/>Validate<br/>Quality Check]
+
+    Clean[데이터 정제<br/>Clean<br/>Missing + Outliers]
+
+    Transform[데이터 변환<br/>Transform<br/>Feature Engineering]
+
+    Route{데이터 타입 감지<br/>Route<br/>Data Type Detection}
+
+    Analyze[데이터 분석<br/>ANALYZE<br/>RFM/Sentiment/Sales]
+
+    Visualize[시각화<br/>Visualize<br/>Plotly Charts]
+
+    Report[결과 내보내기<br/>LOAD<br/>Export CSV/HTML]
+
+    Extract --> Load
+    Load --> Validate
+    Validate --> Clean
+    Clean --> Transform
+    Transform --> Route
+    Route --> Analyze
+    Analyze --> Visualize
+    Visualize --> Report
+
+    style Extract fill:#4A6DDF,stroke:#9CA3AF,stroke-width:3px,color:#fff
+    style Load fill:#4A6DDF,stroke:#9CA3AF,stroke-width:3px,color:#fff
+    style Validate fill:#4A6DDF,stroke:#9CA3AF,stroke-width:3px,color:#fff
+    style Clean fill:#4A6DDF,stroke:#9CA3AF,stroke-width:3px,color:#fff
+    style Transform fill:#4A6DDF,stroke:#9CA3AF,stroke-width:3px,color:#fff
+    style Route fill:#4A6DDF,stroke:#9CA3AF,stroke-width:3px,color:#fff
+    style Analyze fill:#4A6DDF,stroke:#9CA3AF,stroke-width:3px,color:#fff
+    style Visualize fill:#4A6DDF,stroke:#9CA3AF,stroke-width:3px,color:#fff
+    style Report fill:#4A6DDF,stroke:#9CA3AF,stroke-width:3px,color:#fff

@@ -1,0 +1,65 @@
+<mxfile host="app.diagrams.net" version="24.0.0">
+  <diagram name="페이지-1" id="sql-analysis-diagram">
+    <mxGraphModel dx="1434" dy="844" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- 데이터 소스 -->
+        <mxCell id="node0" value="[데이터 소스]&lt;br&gt;1. CSV/Excel 업로드&lt;br&gt;2. 크롤링 데이터" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="280" y="40" width="240" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- db_manager.py -->
+        <mxCell id="node1" value="[db_manager.py]&lt;br&gt;• CREATE TABLE&lt;br&gt;• INSERT/UPSERT&lt;br&gt;• 인덱스 생성" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="280" y="160" width="240" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- SQLite Database -->
+        <mxCell id="node2" value="[SQLite Database]&lt;br&gt;• reviews 테이블&lt;br&gt;• transactions 테이블&lt;br&gt;• sales 테이블" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="280" y="290" width="240" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- sql_query_generator.py -->
+        <mxCell id="node3" value="[sql_query_generator.py]&lt;br&gt;• RFM 분석 SQL&lt;br&gt;  CTE 3단계 중첩&lt;br&gt;  NTILE Window Function&lt;br&gt;• 매출 트렌드 SQL&lt;br&gt;  LAG (전월 대비)&lt;br&gt;  이동평균 (ROWS BETWEEN)&lt;br&gt;• 파레토 분석 SQL&lt;br&gt;  SUM() OVER (누적 합계)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="240" y="420" width="320" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Streamlit UI -->
+        <mxCell id="node4" value="[Streamlit UI]&lt;br&gt;&lt;br&gt;• 📊 SQL 쿼리 보기&lt;br&gt;• 코드 하이라이팅&lt;br&gt;• 📋 복사 ▶️ 실행" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="280" y="640" width="240" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- 결과 DataFrame -->
+        <mxCell id="node5" value="[결과 DataFrame]" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="300" y="800" width="200" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Plotly 차트 -->
+        <mxCell id="node6" value="[Plotly 차트]" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="300" y="890" width="200" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- 화살표 -->
+        <mxCell id="edge0" edge="1" parent="1" source="node0" target="node1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1" edge="1" parent="1" source="node1" target="node2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2" edge="1" parent="1" source="node2" target="node3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" edge="1" parent="1" source="node3" target="node4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4" edge="1" parent="1" source="node4" target="node5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge5" edge="1" parent="1" source="node5" target="node6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

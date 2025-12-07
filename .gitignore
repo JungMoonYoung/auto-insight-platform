@@ -69,3 +69,4 @@ reports/
 
 # OS
 Thumbs.db
+.streamlit/secrets.toml

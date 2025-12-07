@@ -1,0 +1,28 @@
+erDiagram
+    REVIEWS {
+        INTEGER id PK "고유ID"
+        TEXT source "출처"
+        TEXT content "리뷰내용"
+        REAL rating "평점"
+        DATE review_date "작성일"
+        TEXT sentiment "감성분석결과"
+    }
+
+    TRANSACTIONS {
+        INTEGER id PK "고유ID"
+        TEXT customer_id FK "고객ID"
+        DATE invoice_date "거래일"
+        TEXT product_name "상품명"
+        INTEGER quantity "수량"
+        REAL unit_price "단가"
+    }
+
+    CUSTOMERS {
+        TEXT customer_id PK "고객ID"
+        INTEGER recency "최근구매일"
+        INTEGER frequency "구매빈도"
+        REAL monetary "구매금액"
+        TEXT segment "고객세그먼트"
+    }
+
+    TRANSACTIONS ||--o{ CUSTOMERS : "RFM분석"

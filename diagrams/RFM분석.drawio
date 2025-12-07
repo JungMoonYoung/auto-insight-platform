@@ -1,0 +1,65 @@
+<mxfile host="app.diagrams.net" version="24.0.0">
+  <diagram name="페이지-1" id="rfm-analysis-diagram">
+    <mxGraphModel dx="1434" dy="844" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- 거래 데이터 -->
+        <mxCell id="node0" value="[거래 데이터]&lt;br&gt;CustomerID | InvoiceDate | Quantity | UnitPrice" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="240" y="40" width="320" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Step 1: RFM 지표 계산 -->
+        <mxCell id="node1" value="&lt;b&gt;[Step 1: RFM 지표 계산]&lt;/b&gt;&lt;br&gt;• Recency = 현재일 - MAX(InvoiceDate)&lt;br&gt;• Frequency = COUNT(InvoiceNo)&lt;br&gt;• Monetary = SUM(Quantity × UnitPrice)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="200" y="150" width="400" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Step 2: 데이터 정규화 -->
+        <mxCell id="node2" value="&lt;b&gt;[Step 2: 데이터 정규화]&lt;/b&gt;&lt;br&gt;• StandardScaler 적용&lt;br&gt;• 차원 축소 (선택적)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="240" y="280" width="320" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Step 3: 최적 군집 수 결정 -->
+        <mxCell id="node3" value="&lt;b&gt;[Step 3: 최적 군집 수 결정]&lt;/b&gt;&lt;br&gt;• K = 3~8 범위 테스트&lt;br&gt;• Silhouette Score 계산&lt;br&gt;• 최고점 선택" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="240" y="400" width="320" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Step 4: K-Means 군집화 -->
+        <mxCell id="node4" value="&lt;b&gt;[Step 4: K-Means 군집화]&lt;/b&gt;&lt;br&gt;• 최적 K로 군집 실행&lt;br&gt;• 각 고객에게 세그먼트 라벨 부여" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="240" y="530" width="320" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Step 5: 세그먼트 네이밍 -->
+        <mxCell id="node5" value="&lt;b&gt;[Step 5: 세그먼트 네이밍]&lt;/b&gt;&lt;br&gt;R높고 F높음 → &quot;VIP 고객&quot;&lt;br&gt;R높고 F낮음 → &quot;신규 고객&quot;&lt;br&gt;R낮음 → &quot;이탈 위험 고객&quot;&lt;br&gt;else → &quot;일반 고객&quot;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="220" y="650" width="360" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Step 6: 시각화 -->
+        <mxCell id="node6" value="&lt;b&gt;[Step 6: 시각화]&lt;/b&gt;&lt;br&gt;• 3D Scatter Plot (R-F-M 공간)&lt;br&gt;• 군집별 평균 비교 차트&lt;br&gt;• 세그먼트 분포 Pie Chart" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="220" y="790" width="360" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- 화살표 -->
+        <mxCell id="edge0" edge="1" parent="1" source="node0" target="node1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1" edge="1" parent="1" source="node1" target="node2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2" edge="1" parent="1" source="node2" target="node3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" edge="1" parent="1" source="node3" target="node4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4" edge="1" parent="1" source="node4" target="node5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge5" edge="1" parent="1" source="node5" target="node6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

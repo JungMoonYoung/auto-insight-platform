@@ -1,0 +1,65 @@
+<mxfile host="app.diagrams.net" version="24.0.0">
+  <diagram name="페이지-1" id="data-flow-diagram">
+    <mxGraphModel dx="1434" dy="844" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- 1. 사용자 -->
+        <mxCell id="node1" value="사용자" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="340" y="40" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 2. 데이터 검증 -->
+        <mxCell id="node2" value="&lt;b&gt;2. 데이터 검증&lt;/b&gt;&lt;br&gt;컬럼명 정규화&lt;br&gt;결측치 비율 체크&lt;br&gt;데이터 타입 검증" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="280" y="150" width="240" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- 3. 전처리 -->
+        <mxCell id="node3" value="&lt;b&gt;3. 전처리&lt;/b&gt;&lt;br&gt;결측치 처리 (중앙값/최빈값)&lt;br&gt;이상치 처리 (IQR/Z-score)&lt;br&gt;파생변수 생성 (날짜 → 요일/계절)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="240" y="300" width="320" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- 4. 분석 분기 -->
+        <mxCell id="node4" value="&lt;b&gt;4. 분석 분기&lt;/b&gt;&lt;br&gt;[E-commerce] → RFM 계산 → K-Means 군집화&lt;br&gt;[Review] → 형태소 분석 → 감성 분류 → GPT 분석&lt;br&gt;[Sales] → 시계열 집계 → 트렌드 분석" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="200" y="450" width="400" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- 타입 자동 인식 (오른쪽) -->
+        <mxCell id="node4b" value="타입 자동 인식" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="640" y="480" width="120" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- 5. 시각화 -->
+        <mxCell id="node5" value="&lt;b&gt;5. 시각화&lt;/b&gt;&lt;br&gt;Plotly 차트 생성&lt;br&gt;인사이트 자동 생성" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="280" y="600" width="240" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- 6. 출력 -->
+        <mxCell id="node6" value="&lt;b&gt;6. 출력&lt;/b&gt;&lt;br&gt;대시보드 표시&lt;br&gt;HTML 리포트&lt;br&gt;CSV 다운로드" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="280" y="730" width="240" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- 화살표 -->
+        <mxCell id="edge1" edge="1" parent="1" source="node1" target="node2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2" edge="1" parent="1" source="node2" target="node3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" edge="1" parent="1" source="node3" target="node4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4" edge="1" parent="1" source="node4" target="node4b">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge5" edge="1" parent="1" source="node4" target="node5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge6" edge="1" parent="1" source="node5" target="node6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
