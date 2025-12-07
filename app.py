@@ -466,14 +466,16 @@ def render_sample_data():
     sample_descriptions = {
         'ecommerce_sample.csv': '🛒 E-commerce 거래 데이터 (RFM 분석용)',
         'naver_movie_reviews.csv': '🎬 네이버 영화 리뷰 데이터',
-        'naver_place_reviews.csv': '📍 네이버 플레이스 리뷰 데이터',
-        'sales_sample.csv': '📊 판매 데이터 (시계열 분석용)'
+        'naver_place_reviews.csv': '📍 네이버 플레이스 리뷰 데이터'
     }
+
+    # 설명이 있는 샘플 파일만 필터링
+    available_samples = [f for f in sample_files if f in sample_descriptions]
 
     # 선택 UI
     selected_file = st.selectbox(
         "샘플 데이터 선택",
-        sample_files,
+        available_samples,
         format_func=lambda x: sample_descriptions.get(x, x),
         key="sample_file"
     )
