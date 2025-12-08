@@ -465,6 +465,9 @@ def render_sample_data():
     # 샘플 데이터 설명
     sample_descriptions = {
         'ecommerce_sample.csv': '🛒 E-commerce 거래 데이터 (RFM 분석용)',
+        'ecommerce_large_sample.csv': '🛒 E-commerce 대량 데이터 (3000건, 시계열 분석용)',
+        'sales_sample.csv': '📈 매출 데이터 (1000건, 시계열 분석 체험용)',
+        'new_sales_data_with_price.csv': '📈 매출 대량 데이터 (10만건, 고급 시계열 분석용)',
         'naver_movie_reviews.csv': '🎬 네이버 영화 리뷰 데이터',
         'naver_place_reviews.csv': '📍 네이버 플레이스 리뷰 데이터'
     }
