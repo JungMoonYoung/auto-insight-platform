@@ -70,3 +70,23 @@ reports/
 # OS
 Thumbs.db
 .streamlit/secrets.toml
+
+# Backup files
+*.backup
+*.backup2
+*.backup_*
+app.py.backup*
+
+# Development/Testing files
+test_deployment_ready.py
+test_gpt.py
+test_crawler_simple.py
+convert_to_*.py
+nul
+
+# Documentation (temporary/personal)
+면접용_*.md
+포트폴리오_*.md
+PDF_*.md
+START_DEPLOYMENT.txt
+DEPLOYMENT_CHECKLIST.md
