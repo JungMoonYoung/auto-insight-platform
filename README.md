@@ -7,15 +7,86 @@ AI 기반 자동 데이터 분석 및 리포트 생성 시스템
 **Auto-Insight Platform**은 비개발자도 쉽게 사용할 수 있는 자동 데이터 분석 도구입니다.
 CSV/Excel 파일을 업로드하면 AI가 자동으로 분석하고 인사이트를 제공합니다.
 
-### 주요 기능
+### 🎯 핵심 기능 (Core Value)
 
-- 🛒 **E-commerce 분석**: RFM 분석, 고객 세분화, 구매 패턴 발견
-- 📈 **매출 분석**: 시계열 트렌드, 상품별 성과, ABC 분석
-- 💬 **리뷰 분석**: 감성 분석, 토픽 모델링, 키워드 추출
-- 🔍 **SQL Analytics**: SQLite 기반 고급 쿼리 분석 (CTE, Window Functions)
-- 📊 **인터랙티브 대시보드**: Plotly 기반 동적 차트
-- 📄 **HTML 리포트 자동 생성**: 전문가 수준의 분석 리포트
-- 🕷️ **웹 크롤링**: 네이버 영화/웹툰 등 데이터 자동 수집
+- **📁 CSV 업로드 → 자동 분석 설계**
+  - 드래그 앤 드롭으로 간편한 파일 업로드
+  - 인코딩 자동 감지 (UTF-8, CP949, EUC-KR)
+  - 데이터 품질 자동 검증
+
+- **🤖 RFM / 매출 / 리뷰 분석 자동 선택**
+  - 🛒 **E-commerce 분석**: RFM 분석, 고객 세분화 (K-Means 군집화)
+  - 📈 **매출 분석**: 시계열 트렌드, 상품별 성과, 파레토 분석
+  - 💬 **리뷰 분석**: 감성 분석, 토픽 모델링 (LDA), 키워드 추출 (TF-IDF)
+
+- **📄 HTML 의사결정 리포트 생성**
+  - 인터랙티브 차트 포함 (Plotly)
+  - 핵심 인사이트 및 액션 아이템 자동 생성
+  - 다운로드 가능한 전문가 수준 리포트
+
+### 🧩 확장 기능 (Optional)
+
+- **🔍 SQL Analytics (고급 사용자)**
+  - SQLite 데이터베이스 통합
+  - 복잡한 SQL 쿼리 자동 생성 (CTE, Window Functions)
+  - 쿼리 실행 결과 시각화
+
+- **🕷️ 웹 크롤링**
+  - 네이버 영화/플레이스 리뷰 자동 수집
+  - 독립 실행 가능한 크롤러 스크립트
+  - 샘플 데이터 자동 생성
+
+- **🧠 NLP 고도화**
+  - KoNLPy 기반 한국어 형태소 분석
+  - GPT API 연동 (심층 감성 분석)
+  - Word Cloud 시각화
+
+---
+
+## 🔍 SQL Analytics (Phase 4)
+
+> **※ Auto-Insight는 GUI 기반 분석뿐 아니라,
+> SQL 기반 고급 분석을 자동화하여
+> 분석가와 비분석가 모두를 지원합니다.**
+
+### SQLite 데이터베이스 통합
+
+프로젝트에는 SQLite 데이터베이스가 통합되어 고급 SQL 쿼리로 데이터를 분석할 수 있습니다.
+
+#### 주요 기능
+
+1. **데이터베이스 자동 저장**
+   - 크롤링 데이터를 SQLite에 자동 저장
+   - CSV/Excel 업로드 데이터도 DB 저장 가능
+
+2. **SQL 쿼리 자동 생성**
+   - RFM 분석 (CTE 3단계 중첩)
+   - 매출 트렌드 (Window Functions: LAG, 이동평균)
+   - 파레토 분석 (누적 합계, ROW_NUMBER)
+   - 감성 분석 (CASE WHEN)
+
+3. **고급 SQL 기술**
+   - ✅ CTE (Common Table Expressions)
+   - ✅ Window Functions (NTILE, LAG, ROW_NUMBER, SUM OVER)
+   - ✅ Window Frame (ROWS BETWEEN)
+   - ✅ Date Functions (JULIANDAY)
+   - ✅ Aggregate Functions
+   - ✅ Subquery
+
+#### 사용 방법
+
+```bash
+# 샘플 데이터 생성
+python utils/generate_sample_data.py
+
+# Streamlit 앱에서 SQL Analytics 페이지 접속
+streamlit run app.py
+# → 4_SQL_Analytics 페이지 선택
+```
+
+자세한 SQL 기능은 `docs/SQL_PORTFOLIO_GUIDE.md`를 참고하세요.
+
+---
 
 ## 🚀 빠른 시작
 
@@ -216,45 +287,6 @@ pip install streamlit==1.30.0
 1. 이슈를 등록하여 개선 사항 제안
 2. Pull Request로 코드 기여
 3. 버그 리포트 및 피드백 제공
-
-## 🔍 SQL Analytics (Phase 4)
-
-### SQLite 데이터베이스 통합
-
-프로젝트에는 SQLite 데이터베이스가 통합되어 고급 SQL 쿼리로 데이터를 분석할 수 있습니다.
-
-#### 주요 기능
-
-1. **데이터베이스 자동 저장**
-   - 크롤링 데이터를 SQLite에 자동 저장
-   - CSV/Excel 업로드 데이터도 DB 저장 가능
-
-2. **SQL 쿼리 자동 생성**
-   - RFM 분석 (CTE 3단계 중첩)
-   - 매출 트렌드 (Window Functions: LAG, 이동평균)
-   - 파레토 분석 (누적 합계, ROW_NUMBER)
-   - 감성 분석 (CASE WHEN)
-
-3. **고급 SQL 기술**
-   - ✅ CTE (Common Table Expressions)
-   - ✅ Window Functions (NTILE, LAG, ROW_NUMBER, SUM OVER)
-   - ✅ Window Frame (ROWS BETWEEN)
-   - ✅ Date Functions (JULIANDAY)
-   - ✅ Aggregate Functions
-   - ✅ Subquery
-
-#### 사용 방법
-
-```bash
-# 샘플 데이터 생성
-python utils/generate_sample_data.py
-
-# Streamlit 앱에서 SQL Analytics 페이지 접속
-streamlit run app.py
-# → 4_SQL_Analytics 페이지 선택
-```
-
-자세한 SQL 기능은 `docs/SQL_PORTFOLIO_GUIDE.md`를 참고하세요.
 
 ---
 
