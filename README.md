@@ -1,295 +1,211 @@
-# 📊 Auto-Insight Platform
+# Auto-Insight — E-Commerce 고객 분석 자동화 플랫폼
 
-AI 기반 자동 데이터 분석 및 리포트 생성 시스템
+> **SQL·RFM·NLP 자동화로 분석 프로세스를 플랫폼화할 수 있습니다.**
 
-## 🎯 프로젝트 소개
-
-**Auto-Insight Platform**은 비개발자도 쉽게 사용할 수 있는 자동 데이터 분석 도구입니다.
-CSV/Excel 파일을 업로드하면 AI가 자동으로 분석하고 인사이트를 제공합니다.
-
-### 🎯 핵심 기능 (Core Value)
-
-- **📁 CSV 업로드 → 자동 분석 설계**
-  - 드래그 앤 드롭으로 간편한 파일 업로드
-  - 인코딩 자동 감지 (UTF-8, CP949, EUC-KR)
-  - 데이터 품질 자동 검증
-
-- **🤖 RFM / 매출 / 리뷰 분석 자동 선택**
-  - 🛒 **E-commerce 분석**: RFM 분석, 고객 세분화 (K-Means 군집화)
-  - 📈 **매출 분석**: 시계열 트렌드, 상품별 성과, 파레토 분석
-  - 💬 **리뷰 분석**: 감성 분석, 토픽 모델링 (LDA), 키워드 추출 (TF-IDF)
-
-- **📄 HTML 의사결정 리포트 생성**
-  - 인터랙티브 차트 포함 (Plotly)
-  - 핵심 인사이트 및 액션 아이템 자동 생성
-  - 다운로드 가능한 전문가 수준 리포트
-
-### 🧩 확장 기능 (Optional)
-
-- **🔍 SQL Analytics (고급 사용자)**
-  - SQLite 데이터베이스 통합
-  - 복잡한 SQL 쿼리 자동 생성 (CTE, Window Functions)
-  - 쿼리 실행 결과 시각화
-
-- **🕷️ 웹 크롤링**
-  - 네이버 영화/플레이스 리뷰 자동 수집
-  - 독립 실행 가능한 크롤러 스크립트
-  - 샘플 데이터 자동 생성
-
-- **🧠 NLP 고도화**
-  - KoNLPy 기반 한국어 형태소 분석
-  - GPT API 연동 (심층 감성 분석)
-  - Word Cloud 시각화
+CSV 파일 하나만 업로드하면 RFM 고객 세분화 · 매출 분석 · 리뷰 감성 분석 · SQL 쿼리 생성까지 자동으로 수행하는 Streamlit 기반 플랫폼입니다.
 
 ---
 
-## 🔍 SQL Analytics (Phase 4)
+## Links
 
-> **※ Auto-Insight는 GUI 기반 분석뿐 아니라,
-> SQL 기반 고급 분석을 자동화하여
-> 분석가와 비분석가 모두를 지원합니다.**
+- **Live Demo**: https://auto-insight-platform-vocgdmswtxgaxvx3sk5r9u.streamlit.app/
+- **Portfolio (Notion)**: https://www.notion.so/33a404a59bef8106a7ecc2baa5c97853
 
-### SQLite 데이터베이스 통합
+---
 
-프로젝트에는 SQLite 데이터베이스가 통합되어 고급 SQL 쿼리로 데이터를 분석할 수 있습니다.
+## 프로젝트 개요
 
-#### 주요 기능
+| 항목 | 내용 |
+|---|---|
+| 구분 | 개인 프로젝트 |
+| 기간 | 2025.08 ~ 2025.09 |
+| 기여도 | 100% |
+| 역할 | 주제선정, 데이터 수집 및 전처리, EDA, SQL 쿼리 최적화 및 자동화 |
+| 배포 URL | https://auto-insight-platform-vocgdmswtxgaxvx3sk5r9u.streamlit.app/ |
 
-1. **데이터베이스 자동 저장**
-   - 크롤링 데이터를 SQLite에 자동 저장
-   - CSV/Excel 업로드 데이터도 DB 저장 가능
+---
 
-2. **SQL 쿼리 자동 생성**
-   - RFM 분석 (CTE 3단계 중첩)
-   - 매출 트렌드 (Window Functions: LAG, 이동평균)
-   - 파레토 분석 (누적 합계, ROW_NUMBER)
-   - 감성 분석 (CASE WHEN)
+## 문제 정의 & 해결 방향
 
-3. **고급 SQL 기술**
-   - ✅ CTE (Common Table Expressions)
-   - ✅ Window Functions (NTILE, LAG, ROW_NUMBER, SUM OVER)
-   - ✅ Window Frame (ROWS BETWEEN)
-   - ✅ Date Functions (JULIANDAY)
-   - ✅ Aggregate Functions
-   - ✅ Subquery
+### 문제 정의
 
-#### 사용 방법
+실무에서 데이터 분석은 **수집 → 저장 → 분석 → 시각화 → 인사이트 도출**의 반복 과정입니다. 이 과정을 매번 수동으로 수행하면 분석가의 시간이 반복 작업에 소모되고, 비개발자는 분석 결과에 접근조차 어렵습니다.
 
-```bash
-# 샘플 데이터 생성
-python utils/generate_sample_data.py
+### 해결 방향
 
-# Streamlit 앱에서 SQL Analytics 페이지 접속
-streamlit run app.py
-# → 4_SQL_Analytics 페이지 선택
+**CSV 파일 하나를 업로드하면 RFM 분석, 매출 분석, 리뷰 감성 분석, SQL 쿼리 생성까지 자동으로 수행하는 플랫폼**을 구축하여, 분석 프로세스 자체를 자동화하는 것을 목표로 했습니다.
+
+---
+
+## 기술 스택
+
+| 영역 | 스택 |
+|---|---|
+| Language & DB | Python, SQLite |
+| Data & ML | Pandas, Scikit-learn (K-Means, TF-IDF, LDA) |
+| NLP & LLM | KoNLPy, OpenAI API |
+| Web & Viz | Streamlit, Plotly |
+
+---
+
+## 시스템 아키텍처
+
+### System Architecture
+
+```
+사용자 입력  →  Streamlit UI  →  SQLite DB  →  분석 모듈  →  결과 출력
+                                               ├─ RFM
+                                               ├─ 매출
+                                               └─ NLP
 ```
 
-자세한 SQL 기능은 `docs/SQL_PORTFOLIO_GUIDE.md`를 참고하세요.
+### Data Flow
+
+```
+데이터 입력 → 전처리 → 검증 → 분석 유형 자동 분기 → 시각화 → 인사이트
+                                   ├─ 리뷰
+                                   ├─ NLP
+                                   ├─ 매출
+                                   └─ RFM
+```
 
 ---
 
-## 🚀 빠른 시작
+## 주요 기능
 
-### 1. 설치
+### 1) SQL 쿼리 자동 생성 및 실행
+
+- **CTE 3단계 중첩**: RFM 계산 → NTILE 분위수 → 세그먼트 분류
+- **Window Functions 8종**: LAG, LEAD, SUM OVER, ROW_NUMBER 등
+- **이동평균 구현**: ROWS BETWEEN으로 7일/30일 트렌드 추출
+- 100,000건 데이터 → **2초 이내** 집계 및 차트 시각화
+
+### 2) RFM 고객 세분화 (K-Means)
+
+- Silhouette Score 기반 **최적 K 탐색** (3~8개 군집)
+- VIP / 충성 / 이탈 위험 / 신규 고객 자동 분류
+- 3,000명 고객 → **3초 이내** 세분화 완료
+
+### 3) NLP 리뷰 감성 분석 (한국어)
+
+- KoNLPy + TF-IDF 형태소 분석·키워드 추출
+- **LDA 토픽 모델링**: 숨겨진 주제 5개 자동 발견
+- **부정 리뷰만 GPT 전송** → API 비용 70% 절감
+- 워드클라우드 + 감성 분포 히트맵 생성
+
+### 4) GPT 마케팅 전략 자동 생성
+
+- RFM 분석 + 매출 트렌드 통합 분석
+- 고객 세그먼트별 목표 / 액션 / 메시지톤 / 예상효과 제공
+- **15초 이내** 전문가 수준 인사이트 생성
+
+---
+
+## 비즈니스 활용 시나리오
+
+### 1. RFM 자동 분석 시스템
+
+- **분석과 액션 사이의 병목 제거**: 데이터 팀에 분석 요청·대기 없이 마케터가 스스로 타겟 리스트 직접 추출 가능
+- **API 보고서 자동화**: 자동 생성된 보고서 결과를 시계열로 누적하여 캠페인 전후 효과를 데이터로 검증하는 정기 모니터링 체계 설립
+- **고도화 확장 계획**: ML 기반 LTV 예측 모델을 결합하여 이탈 확률이 높은 고가치 고객을 선제 방어하는 **예측형 CRM으로 고도화**
+
+### 2. 리뷰 감성 분석
+
+- **부정 리뷰 급증 키워드 주 단위 모니터링**: 상품 QC팀에 전달하여 품질 이슈 조기 대응
+- **토픽 모델링으로 카테고리 자동 분류**: "배송 지연", "품질 불량", "사이즈 불일치" 등 카테고리별 응답 매뉴얼 및 응대 자동화 구축
+- **고도화 확장 계획**:
+  - LLM 기반 근본 원인 추론으로 확장, 공정·배송 단계의 병목 구간까지 자동 리포팅
+  - 상품 QC팀에 부정 리뷰 알림 자동 발송 시스템 구축
+
+### 3. SQL 쿼리 작성 및 자동화
+
+- **마케터 셀프 데이터 추출**: 쿼리 작성 없이 캠페인에 필요한 데이터 추출 가능, 분석팀 요청 대기 없이 즉시 집행
+- **주간/월간 매출 리포트 자동 생성**: 직접 작성하던 정기 리포트를 자동화하여 생산성 향상
+- **파레토 분석 쿼리 자동 생성**:
+  - 매출 상위 20% 상품 즉시 식별 → 재고 물량 조절
+  - 매출 하위 상품 식별 → 재고 정리·할인 판매로 악성 재고 해소
+- **고도화 확장 계획**: 자연어 질문만으로 시뮬레이션 결과와 액션 아이템까지 제공하는 **AI 데이터 에이전트로 확장**
+
+---
+
+## 문제 해결 경험
+
+### 1. GPT 비용 95% 절감 (하이브리드 감성 분석)
+
+- **문제**: 전체 리뷰를 GPT로 분석하면 천문학적 토큰 비용 발생
+- **해결**: 1차로 키워드 기반 무료 감성 분류 → 부정 리뷰만 100개 샘플링 → GPT는 심층 분석에만 선별 적용
+- **결과**: 전체 비용 **95% 절감**
+- **배운 점**: 비즈니스 관점에서 가장 중요한 것은 비용이므로, 비용이 있는 API는 **"전수 처리"가 아닌 "필요한 곳에만 정밀 투입"** 하는 설계가 중요하다.
+
+### 2. 파레토 분석 조건 오류 처리
+
+- **문제**: 조건식이 `<80`이어서 80% 도달 직전 상품에서 끊김 → 마지막 상품이 누락되는 오류
+- **해결**: 조건식을 `<=`으로 수정 + 80% 미달 시 전체 반환 + 빈 데이터 시 최소 1개 보장하는 방어 로직 추가
+- **배운 점**: **경계값에서 오류가 가장 많이 난다**는 것을 직접 경험 후, 경계값을 조심하고 **경계값 테스트를 하는 습관**을 들이게 되었다.
+
+---
+
+## 실행 방법
+
+### Local 실행
 
 ```bash
-# 저장소 클론 (또는 다운로드)
+# 1. 저장소 클론
+git clone https://github.com/JungMoonYoung/auto-insight-platform.git
 cd auto-insight-platform
 
-# 가상환경 생성 (권장)
+# 2. 가상환경 및 의존성
 python -m venv venv
-
-# 가상환경 활성화
-# Windows:
-venv\Scripts\activate
-# Mac/Linux:
+# Windows
+.\venv\Scripts\activate
+# macOS/Linux
 source venv/bin/activate
-
-# 패키지 설치
 pip install -r requirements.txt
-```
 
-### 2. 앱 실행
-
-```bash
+# 3. 대시보드 실행
 streamlit run app.py
 ```
 
-브라우저가 자동으로 열리며 `http://localhost:8501`에서 앱을 사용할 수 있습니다.
-
-### 3. 사용 방법
-
-1. **분석 타입 선택**: E-commerce, 매출 분석, 리뷰 분석 중 선택
-2. **파일 업로드**: CSV 또는 Excel 파일 업로드
-3. **자동 분석**: 클릭 한 번으로 분석 완료
-4. **결과 확인**: 대시보드에서 인터랙티브 차트 확인
-5. **리포트 다운로드**: HTML 리포트 또는 CSV 결과 다운로드
-
-## 📁 프로젝트 구조
+### 폴더 구조
 
 ```
 auto-insight-platform/
-│
-├── app.py                      # Streamlit 메인 앱
-├── requirements.txt            # 앱 의존성 패키지
-├── README.md                   # 이 파일
-│
+├── app.py                      # Streamlit 메인 앱 (인사이트 / 데이터 준비 / 자동 분석 / 상세 탐색 / 내보내기)
+├── pages/
+│   └── 4_SQL_Analytics.py      # SQL Analytics 서브 페이지
+├── modules/                    # 분석 모듈
+│   ├── data_loader.py
+│   ├── preprocessor.py
+│   ├── rfm_analyzer.py
+│   ├── sales_analyzer.py
+│   ├── text_analyzer.py
+│   ├── visualizer.py
+│   ├── db_manager.py
+│   ├── sql_query_generator.py
+│   ├── gpt_analyzer.py
+│   ├── insight_generator.py
+│   └── report_generator.py
+├── crawlers/                   # 데이터 수집 모듈
+├── sample_data/                # 샘플 데이터
 ├── config/
-│   └── settings.yaml           # 설정 파일
-│
-├── modules/                    # 분석 엔진 모듈
-│   ├── __init__.py
-│   ├── data_loader.py          # 데이터 로드 및 검증
-│   ├── preprocessor.py         # 데이터 전처리
-│   ├── rfm_analyzer.py         # RFM 분석 (E-commerce)
-│   ├── text_analyzer.py        # 텍스트 분석 (리뷰) - 구현 예정
-│   ├── sales_analyzer.py       # 매출 분석 - 구현 예정
-│   ├── visualizer.py           # 차트 생성
-│   ├── insight_generator.py    # 인사이트 자동 생성
-│   └── report_generator.py     # HTML 리포트 생성
-│
-├── crawlers/                   # 독립 크롤링 스크립트
-│   ├── README.md               # 크롤러 사용 가이드
-│   ├── requirements_crawler.txt
-│   ├── naver_movie_crawler.py  # 네이버 영화 리뷰 크롤러
-│   └── output/                 # 크롤링 결과 저장 폴더
-│
-├── templates/                  # HTML 템플릿
-│   ├── report_template.html
-│   └── styles.css
-│
-└── tests/                      # 테스트 코드
-    └── sample_data.csv
+├── utils/
+├── tests/
+├── requirements.txt
+└── README.md
 ```
 
-## 📊 지원하는 데이터 형식
+---
 
-### E-commerce 데이터
+## 성장 포인트
 
-**필수 컬럼:**
-- `CustomerID`: 고객 ID
-- `InvoiceDate`: 구매 날짜
-- `Quantity`: 수량
-- `UnitPrice`: 단가
+> 분석을 수행하는 것과 분석이 자동으로 돌아가는 시스템을 구축하는 것은 **완전히 다른 영역**입니다. 자동화가 비즈니스에 미치는 임팩트를 직접 확인했습니다.
+>
+> 데이터 품질 검증 없이 분석에 진입하여 결과가 틀어진 경험 이후, **분석 파이프라인 설계 초입에서 검증 프로세스를 배치하는 것을 원칙**으로 적용하고 있습니다.
 
-**선택 컬럼:**
-- `InvoiceNo`: 송장 번호
-- `Description`: 상품 설명
-- `Country`: 국가
+---
 
-### 매출 데이터
+## Contact
 
-**필수 컬럼:**
-- `Date`: 날짜
-- `Product`: 상품명
-- `Sales` 또는 `Revenue`: 매출액
-
-### 리뷰 데이터
-
-**필수 컬럼:**
-- `Review` 또는 `Text`: 리뷰 텍스트
-
-**선택 컬럼:**
-- `Rating` 또는 `Score`: 평점
-- `Date`: 작성일
-
-## 🎨 주요 시각화
-
-### E-commerce 분석
-- 3D 고객 세분화 맵
-- 군집별 RFM 평균 비교
-- 고객 세그먼트 분포 (파이 차트)
-- RFM 히트맵
-
-### 매출 분석 (구현 예정)
-- 시계열 매출 트렌드
-- 상품별 성과 차트
-- 계절성 분석
-
-### 리뷰 분석 (구현 예정)
-- 감성 분포 차트
-- Word Cloud
-- 토픽별 문서 분포
-
-## 🕷️ 웹 크롤링 사용하기
-
-데이터가 없다면 크롤러를 사용하여 수집할 수 있습니다.
-
-```bash
-# 크롤러 의존성 설치
-cd crawlers
-pip install -r requirements_crawler.txt
-
-# 네이버 영화 리뷰 크롤링
-python naver_movie_crawler.py --movie-id 215095 --count 500 --headless
-
-# 결과는 crawlers/output/ 폴더에 저장됨
-```
-
-자세한 사용법은 [`crawlers/README.md`](crawlers/README.md)를 참조하세요.
-
-## ⚙️ 설정
-
-`config/settings.yaml` 파일에서 다양한 설정을 변경할 수 있습니다:
-
-- 군집 수 범위 (min_clusters, max_clusters)
-- 이상치 탐지 방법 (IQR, Z-score)
-- 시각화 색상 스키마
-- 파일 업로드 제한
-
-## 🐛 문제 해결
-
-### Streamlit 실행 오류
-
-```bash
-# Streamlit 재설치
-pip uninstall streamlit
-pip install streamlit==1.30.0
-```
-
-### 한국어 NLP 오류 (KoNLPy)
-
-```bash
-# Java 설치 필요 (KoNLPy 의존성)
-# Windows: https://www.java.com/ko/download/
-# Mac: brew install openjdk
-# Linux: sudo apt-get install default-jdk
-```
-
-### Plotly 차트가 표시되지 않음
-
-브라우저 캐시를 삭제하고 새로고침하세요 (Ctrl + F5).
-
-## 📈 개발 로드맵
-
-### Phase 1 - MVP (완료)
-- [x] Streamlit 기본 UI
-- [x] 파일 업로드 및 검증
-- [x] RFM 분석
-- [x] 기본 시각화
-- [x] HTML 리포트
-
-### Phase 2 - 리뷰 분석 (진행 중)
-- [ ] KoBERT 감성 분석
-- [ ] Word Cloud 생성
-- [ ] 토픽 모델링 (LDA)
-
-### Phase 3 - 고도화
-- [ ] 매출 시계열 분석
-- [ ] 추가 크롤러 (웹툰, 도서)
-- [ ] 대시보드 템플릿 선택
-- [ ] 다국어 지원
-
-## 📜 라이선스
-
-이 프로젝트는 개인 학습 및 연구 목적으로 제작되었습니다.
-
-## 🙏 감사의 말
-
-이 프로젝트는 다음 라이브러리를 사용합니다:
-
-- [Streamlit](https://streamlit.io/) - 웹 앱 프레임워크
-- [Plotly](https://plotly.com/) - 인터랙티브 차트
-- [Scikit-learn](https://scikit-learn.org/) - 머신러닝
-- [Pandas](https://pandas.pydata.org/) - 데이터 처리
-- [Selenium](https://www.selenium.dev/) - 웹 크롤링
+- **GitHub**: [JungMoonYoung](https://github.com/JungMoonYoung)
+- **Email**: kobing7122@gmail.com
+- **Portfolio**: https://www.notion.so/252404a59bef802b8693d40f30b48d82
