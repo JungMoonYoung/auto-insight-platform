@@ -123,8 +123,297 @@ def load_custom_css():
 
 # ==================== 페이지 함수들 ====================
 
+def page_insight():
+    """페이지 0: 인사이트 브리핑 (대시보드 진입 첫 화면)
+
+    첫 화면(스크롤 없이): 컴팩트 히어로 + 3통합 카드
+    상세: 탭(자동화 / 타겟 사용자 / 비즈니스 활용)
+    """
+
+    # ---------- 섹션 0. 컴팩트 히어로 ----------
+    st.markdown("""
+    <div style="padding:18px 24px;border-radius:14px;
+                background:linear-gradient(135deg,#1a1f4a 0%,#2d1b69 100%);
+                border:1px solid rgba(255,255,255,0.08);margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+            <div style="font-size:22px;font-weight:700;color:#fff;">
+                📊 Auto-Insight Platform
+            </div>
+            <div style="font-size:13px;color:#8ab4ff;letter-spacing:1px;">
+                CSV 한 장 → 고객·리뷰·매출 자동 분석 → GPT 실행 전략 제안
+            </div>
+        </div>
+        <div style="font-size:13px;color:#c9d1e8;margin-top:6px;line-height:1.55;">
+            "데이터는 있는데, 그래서 뭘 해야 하지?" — 그 질문에 <b style="color:#fff;">30초</b> 안에 답하는 대시보드입니다.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ---------- 섹션 1. 매트릭스 테이블 (행=관점, 열=분석 종류) ----------
+    C_CUST = "#8ab4ff"
+    C_REV = "#ff9ec7"
+    C_SAL = "#9effa3"
+
+    td_base = (
+        "padding:18px 20px;vertical-align:top;"
+        "border:1px solid rgba(255,255,255,0.08);"
+        "background:rgba(255,255,255,0.03);"
+    )
+    td_label = (
+        "padding:18px 20px;vertical-align:top;"
+        "border:1px solid rgba(255,255,255,0.08);"
+        "background:rgba(138,180,255,0.06);"
+        "width:14%;"
+    )
+
+    def _header_cell(icon, title, color, question):
+        return (
+            f'<td style="{td_base}border-top:3px solid {color};width:28.6%;">'
+            f'<div style="font-size:36px;line-height:1;">{icon}</div>'
+            f'<div style="font-size:26px;font-weight:800;color:{color};margin:10px 0 6px 0;letter-spacing:-0.5px;">{title}</div>'
+            f'<div style="color:#c9d1e8;font-size:15px;font-style:italic;line-height:1.5;">{question}</div>'
+            f'</td>'
+        )
+
+    def _label_cell(icon, text):
+        return (
+            f'<td style="{td_label}">'
+            f'<div style="font-size:22px;">{icon}</div>'
+            f'<div style="color:#fff;font-size:18px;font-weight:800;margin-top:6px;line-height:1.3;">{text}</div>'
+            f'</td>'
+        )
+
+    def _content_cell(html_content, color=None, bold=False):
+        weight = "600" if bold else "400"
+        col = color if color else "#c9d1e8"
+        return (
+            f'<td style="{td_base}">'
+            f'<div style="color:{col};font-size:15px;line-height:1.85;font-weight:{weight};">{html_content}</div>'
+            f'</td>'
+        )
+
+    table_html = (
+        '<table style="width:100%;border-collapse:separate;border-spacing:0;border-radius:14px;overflow:hidden;">'
+        # ---- 행 1: 헤더 (기능 라벨 + 3개 분석 타이틀) ----
+        '<tr>'
+        f'{_label_cell("🗂️", "기능")}'
+        f'{_header_cell("🛒", "고객 분석 (RFM)", C_CUST, "누가 VIP이고 누가 이탈 위험인가?")}'
+        f'{_header_cell("💬", "리뷰 감성 분석", C_REV, "고객은 무엇에 만족/불만족하는가?")}'
+        f'{_header_cell("📈", "매출 분석", C_SAL, "어떤 상품이 매출을 이끄는가?")}'
+        '</tr>'
+        # ---- 행 2: 자동화 기능 ----
+        '<tr>'
+        f'{_label_cell("🔧", "자동화 기능")}'
+        f'{_content_cell("• 엘보우법 자동 K 탐색<br>• K-Means 군집 자동 네이밍<br>• 고객 가치 피라미드")}'
+        f'{_content_cell("• 한국어 형태소 감성 분석<br>• 긍/부정 키워드 Top15<br>• 워드 클라우드")}'
+        f'{_content_cell("• 일·주·월 트렌드 자동 집계<br>• 이동평균·성장률<br>• 파레토 80/20")}'
+        '</tr>'
+        # ---- 행 3: 어디를 봐야 하나 ----
+        '<tr>'
+        f'{_label_cell("📌", "어디를 봐야 하나")}'
+        f'{_content_cell("VIP 비중 · 이탈군 Recency ·<br>군집 분리도 3가지를 먼저 확인")}'
+        f'{_content_cell("부정 키워드 편중 영역 ·<br>중립 리뷰 회색지대 조기 감지")}'
+        f'{_content_cell("파레토 집중도 · 성장률 모멘텀 ·<br>롱테일 비중으로 전략 판단")}'
+        '</tr>'
+        # ---- 행 4: 비즈니스 활용 ----
+        '<tr>'
+        f'{_label_cell("💼", "비즈니스 활용")}'
+        f'{_content_cell("→ 셀프 타겟팅으로 분석 병목 제거<br>→ LTV 예측형 CRM으로 확장", color=C_CUST, bold=True)}'
+        f'{_content_cell("→ QC팀 조기 경보·응대 자동화<br>→ LLM 근본원인 리포팅으로 확장", color=C_REV, bold=True)}'
+        f'{_content_cell("→ 재고·공급망 선제 관리<br>→ AI 데이터 에이전트로 확장", color=C_SAL, bold=True)}'
+        '</tr>'
+        '</table>'
+    )
+
+    st.markdown(table_html, unsafe_allow_html=True)
+
+    st.markdown("")
+    st.caption("👉 왼쪽 사이드바에서 **🏠 데이터 준비** 를 선택해 분석을 시작하세요.")
+
+    # ---------- 상세 탭 (첫 화면 아래, 필요한 사람만) ----------
+    st.markdown("")
+    tab1, tab2, tab3 = st.tabs([
+        "🤖 자동화한 것",
+        "🎯 타겟 사용자",
+        "💼 비즈니스 활용 상세",
+    ])
+
+    # ----- TAB 1: 자동화 -----
+    with tab1:
+        st.caption("엔지니어 관점이 아니라, 분석가 관점(어떤 반복 업무를 코드로 녹였나)을 보여줍니다.")
+        auto_table = pd.DataFrame({
+            "단계": ["수집", "전처리", "분석 선택", "고객 세분화", "리뷰 감성", "매출 집계", "해석", "보고"],
+            "기존 수작업": [
+                "엑셀 수동 정리, 사이트 복붙",
+                "결측치·타입 매번 수동",
+                "사람이 판단",
+                "RFM 수기 계산 + K 임의 선택",
+                "라벨링 수동",
+                "피벗테이블 재작성",
+                "분석가가 리포트 작성",
+                "PPT/워드 수작업",
+            ],
+            "이 플랫폼": [
+                "파일 업로드 + 웹 크롤러 + 샘플 DB",
+                "컬럼 자동 감지·정제",
+                "스키마 기반 자동 라우팅 (이커머스/리뷰/매출)",
+                "엘보우법으로 최적 K 자동 탐색 + 군집 자동 네이밍",
+                "형태소 분석 + 긍/부정 키워드 Top15 + 워드클라우드",
+                "일·주·월 전환 + 이동평균 + 파레토",
+                "GPT가 세그먼트 전략·매출 시뮬레이션 생성",
+                "원클릭 HTML/PDF 내보내기",
+            ],
+        })
+        st.dataframe(auto_table, use_container_width=True, hide_index=True)
+        st.success("⏱️ **Before → After**: 같은 데이터를 엑셀로 분석 시 수 시간 → 이 플랫폼으로 **약 30초**.")
+
+    # ----- TAB 2: 타겟 사용자 -----
+    with tab2:
+        st.caption("이 플랫폼이 실제로 도움이 되는 사용자 그룹입니다.")
+        u1, u2, u3, u4 = st.columns(4)
+        user_card = """
+            padding:16px;border-radius:10px;height:140px;
+            background:rgba(255,255,255,0.03);
+            border:1px solid rgba(255,255,255,0.1);
+        """
+        with u1:
+            st.markdown(f"""<div style="{user_card}">
+            <div style="font-size:22px;">🏪</div>
+            <b style="color:#8ab4ff;">소상공인·스마트스토어</b><br>
+            <span style="color:#c9d1e8;font-size:12px;">주문 CSV만 올리면 VIP 고객 리스트 즉시 확보</span>
+            </div>""", unsafe_allow_html=True)
+        with u2:
+            st.markdown(f"""<div style="{user_card}">
+            <div style="font-size:22px;">📣</div>
+            <b style="color:#ff9ec7;">마케터</b><br>
+            <span style="color:#c9d1e8;font-size:12px;">리뷰 부정 키워드 추이로 캠페인 리스크 조기 감지</span>
+            </div>""", unsafe_allow_html=True)
+        with u3:
+            st.markdown(f"""<div style="{user_card}">
+            <div style="font-size:22px;">📦</div>
+            <b style="color:#9effa3;">MD·기획자</b><br>
+            <span style="color:#c9d1e8;font-size:12px;">파레토 분석으로 SKU 리뉴얼 우선순위 결정</span>
+            </div>""", unsafe_allow_html=True)
+        with u4:
+            st.markdown(f"""<div style="{user_card}">
+            <div style="font-size:22px;">🧑‍💻</div>
+            <b style="color:#ffd98a;">분석 주니어</b><br>
+            <span style="color:#c9d1e8;font-size:12px;">반복 리포트를 자동화하고 해석에만 집중</span>
+            </div>""", unsafe_allow_html=True)
+
+    # ----- TAB 3: 비즈니스 활용 상세 -----
+    with tab3:
+        st.caption("현업 도입 시 만들어낼 수 있는 운영 임팩트와 확장 로드맵입니다.")
+
+        biz_card = """
+            padding:18px;border-radius:12px;height:100%;
+            background:rgba(255,255,255,0.03);
+            border:1px solid rgba(138,180,255,0.2);
+        """
+
+        # 1. RFM
+        st.markdown("#### 🛒 1. RFM 자동 분석 시스템")
+        st.markdown("*분석 요청 → 대기 → 실행의 병목을 제거합니다.*")
+        b1, b2, b3 = st.columns(3)
+        with b1:
+            st.markdown(f"""<div style="{biz_card}">
+            <div style="color:#8ab4ff;font-weight:700;">🎯 즉시 효과</div>
+            <div style="color:#fff;font-weight:600;margin:6px 0;">셀프 타겟팅</div>
+            <div style="color:#c9d1e8;font-size:13px;line-height:1.6;">
+            데이터팀 요청·대기 없이<br>마케터가 <b>직접 타겟 리스트 추출</b>
+            </div></div>""", unsafe_allow_html=True)
+        with b2:
+            st.markdown(f"""<div style="{biz_card}">
+            <div style="color:#ff9ec7;font-weight:700;">🔁 운영 체계화</div>
+            <div style="color:#fff;font-weight:600;margin:6px 0;">정기 모니터링 체계</div>
+            <div style="color:#c9d1e8;font-size:13px;line-height:1.6;">
+            API 기반 보고서 자동화로<br>캠페인 <b>전·후 효과를 시계열로 검증</b>
+            </div></div>""", unsafe_allow_html=True)
+        with b3:
+            st.markdown(f"""<div style="{biz_card}">
+            <div style="color:#9effa3;font-weight:700;">🚀 고도화 확장</div>
+            <div style="color:#fff;font-weight:600;margin:6px 0;">예측형 CRM</div>
+            <div style="color:#c9d1e8;font-size:13px;line-height:1.6;">
+            ML 기반 <b>LTV 예측 모델</b> 결합<br>이탈 확률 높은 <b>고가치 고객 선제 방어</b>
+            </div></div>""", unsafe_allow_html=True)
+
+        st.markdown("")
+
+        # 2. 리뷰
+        st.markdown("#### 💬 2. 리뷰 감성 분석")
+        st.markdown("*별점 뒤에 숨은 품질·운영 이슈를 조기에 포착합니다.*")
+        b1, b2, b3 = st.columns(3)
+        with b1:
+            st.markdown(f"""<div style="{biz_card}">
+            <div style="color:#8ab4ff;font-weight:700;">🎯 즉시 효과</div>
+            <div style="color:#fff;font-weight:600;margin:6px 0;">조기 경보</div>
+            <div style="color:#c9d1e8;font-size:13px;line-height:1.6;">
+            부정 키워드 <b>주 단위 모니터링</b><br>QC팀이 품질 이슈 <b>조기 대응</b>
+            </div></div>""", unsafe_allow_html=True)
+        with b2:
+            st.markdown(f"""<div style="{biz_card}">
+            <div style="color:#ff9ec7;font-weight:700;">🔁 운영 체계화</div>
+            <div style="color:#fff;font-weight:600;margin:6px 0;">응대 자동화</div>
+            <div style="color:#c9d1e8;font-size:13px;line-height:1.6;">
+            토픽 모델링으로 "배송지연·품질불량·사이즈"<br>카테고리별 <b>응답 매뉴얼·자동화 구축</b>
+            </div></div>""", unsafe_allow_html=True)
+        with b3:
+            st.markdown(f"""<div style="{biz_card}">
+            <div style="color:#9effa3;font-weight:700;">🚀 고도화 확장</div>
+            <div style="color:#fff;font-weight:600;margin:6px 0;">근본 원인 리포팅</div>
+            <div style="color:#c9d1e8;font-size:13px;line-height:1.6;">
+            LLM 기반 원인 추론으로<br><b>공정·배송 병목까지 자동 리포팅</b><br>+ QC팀 <b>알림 자동 발송</b>
+            </div></div>""", unsafe_allow_html=True)
+
+        st.markdown("")
+
+        # 3. SQL
+        st.markdown("#### 🧮 3. SQL 쿼리 작성 및 자동화")
+        st.markdown("*쿼리를 몰라도 데이터를 쓸 수 있는 조직을 만듭니다.*")
+        b1, b2, b3 = st.columns(3)
+        with b1:
+            st.markdown(f"""<div style="{biz_card}">
+            <div style="color:#8ab4ff;font-weight:700;">🎯 즉시 효과</div>
+            <div style="color:#fff;font-weight:600;margin:6px 0;">셀프 데이터 추출</div>
+            <div style="color:#c9d1e8;font-size:13px;line-height:1.6;">
+            마케터가 <b>쿼리 없이</b> 캠페인 데이터 확보<br>분석팀 요청 대기 <b>Zero</b>
+            </div></div>""", unsafe_allow_html=True)
+        with b2:
+            st.markdown(f"""<div style="{biz_card}">
+            <div style="color:#ff9ec7;font-weight:700;">🔁 운영 체계화</div>
+            <div style="color:#fff;font-weight:600;margin:6px 0;">정기 리포트 자동화</div>
+            <div style="color:#c9d1e8;font-size:13px;line-height:1.6;">
+            주간·월간 매출 리포트<br><b>쿼리 자동 생성으로 생산성 향상</b>
+            </div></div>""", unsafe_allow_html=True)
+        with b3:
+            st.markdown(f"""<div style="{biz_card}">
+            <div style="color:#9effa3;font-weight:700;">🚀 고도화 확장</div>
+            <div style="color:#fff;font-weight:600;margin:6px 0;">AI 데이터 에이전트</div>
+            <div style="color:#c9d1e8;font-size:13px;line-height:1.6;">
+            자연어 질문만으로<br><b>시뮬레이션 + 액션 아이템까지</b> 제공
+            </div></div>""", unsafe_allow_html=True)
+
+        st.info(
+            "📦 **재고 최적화 서브 시나리오**\n\n"
+            "- **상위 20% 파레토 자동 식별** → 핵심 SKU 품절 리스크 사전 차단, 물량 선제 조절\n"
+            "- **하위 롱테일 식별** → 재고 정리·할인 판매로 **악성 재고 해소**"
+        )
+
+        st.markdown("---")
+        st.markdown("#### 🎯 3가지 시스템의 공통 지향점")
+        st.markdown("> **\"데이터 분석을 일회성 리포트가 아니라, 조직의 운영 체계로 내재화한다.\"**")
+        g1, g2, g3 = st.columns(3)
+        with g1:
+            st.success("🔓 **탈병목**\n\n분석팀 대기 없이\n현업이 직접 데이터 활용")
+        with g2:
+            st.success("🔁 **체계화**\n\n일회성 분석 →\n정기 모니터링 → 검증 루프")
+        with g3:
+            st.success("🧠 **예측화**\n\n과거 설명 → 미래 예측 →\n자동 실행 제안")
+
+
 def page_start():
-    """페이지 1: 시작하기 (데이터 업로드 & 크롤링)"""
+    """페이지 1: 데이터 준비 (업로드 & 크롤링)"""
+    st.title("🏠 데이터 준비")
     st.markdown("### 분석할 데이터를 준비하세요")
 
     # 탭 생성
@@ -546,8 +835,8 @@ def page_auto_analysis():
 
     # 데이터 체크
     if not SessionManager.has_data():
-        st.warning("⚠️ 먼저 '시작하기' 페이지에서 데이터를 준비하세요")
-        st.info("💡 왼쪽 사이드바에서 '🏠 시작하기' 페이지로 이동하세요")
+        st.warning("⚠️ 먼저 '데이터 준비' 페이지에서 데이터를 업로드하세요")
+        st.info("💡 왼쪽 사이드바에서 '🏠 데이터 준비' 페이지로 이동하세요")
         return
 
     st.markdown("### 📊 데이터 개요")
@@ -605,7 +894,7 @@ def page_auto_analysis():
                 if use_gpt:
                     # 예상 비용 표시
                     data = SessionManager.get_data()
-                    est_reviews = min(len(data), 100)  # 최대 100개
+                    est_reviews = min(len(data), 50)  # 최대 50개
                     est_tokens = est_reviews * 100  # 리뷰당 약 100 토큰
                     est_cost = APIKeyManager.estimate_cost(est_tokens, 'gpt-4o-mini')
                     st.info(f"예상: ~${est_cost:.4f}")
@@ -826,13 +1115,15 @@ def run_review_analysis(df: pd.DataFrame, use_gpt: bool = False):
                          target_indices = analyzer.df.index.tolist()
 
                     # 최대 50개로 제한 (비용 관리)
-                    max_gpt_reviews = 500
+                    max_gpt_reviews = 50
                     if len(target_indices) > max_gpt_reviews:
                         target_indices = random.sample(target_indices, max_gpt_reviews)
-                    
+
                     # 선택된 인덱스의 텍스트 추출
                     target_reviews_text = analyzer.df.loc[target_indices, text_col].astype(str).tolist()
-                    
+
+                    status_text.text(f"5/{total_steps} GPT 분석 중... ({len(target_reviews_text)}개 리뷰, 약 {max(10, len(target_reviews_text) // 10 * 3)}초 소요 예상)")
+
                     # 2. GPT 분석 요청 (max_reviews를 텍스트 길이만큼 설정하여 내부 샘플링 방지)
                     gpt_sentiment_list = gpt.analyze_sentiment_batch(
                         reviews=target_reviews_text,
@@ -2251,7 +2542,7 @@ def main():
         # 페이지 선택
         page = st.radio(
             "메뉴",
-            ["🏠 시작하기", "🤖 자동 분석", "🔍 상세 탐색", "📥 내보내기"],
+            ["📌 인사이트", "🏠 데이터 준비", "🤖 자동 분석", "🔍 상세 탐색", "📥 내보내기"],
             key="page_selector"
         )
 
@@ -2269,7 +2560,9 @@ def main():
             Environment.show_environment_info()
 
     # 페이지 라우팅
-    if page == "🏠 시작하기":
+    if page == "📌 인사이트":
+        page_insight()
+    elif page == "🏠 데이터 준비":
         page_start()
     elif page == "🤖 자동 분석":
         page_auto_analysis()
