@@ -1,3 +1,7 @@
+# AI 도구 설정
+.claude/
+.cursor/
+
 # Python
 __pycache__/
 *.py[cod]
@@ -39,6 +43,8 @@ ENV/
 
 # Environment variables
 .env
+.env.*
+!.env.example
 
 # Streamlit
 .streamlit/secrets.toml  # NEVER commit secrets!
@@ -86,7 +92,29 @@ nul
 
 # Documentation (temporary/personal)
 면접용_*.md
+면접용_*.html
 포트폴리오_*.md
+포트폴리오_*.html
 PDF_*.md
 START_DEPLOYMENT.txt
 DEPLOYMENT_CHECKLIST.md
+현재진행상황.md
+CodeReview.md
+code_review_*.md
+DAY*_SUMMARY.md
+SRS.md
+plan.md
+QUICKSTART.md
+
+# Old diagrams
+diagrams/구버전/
+
+# Random/unnecessary test data
+tests/random_data_files/
+tests/TEST_IMPROVEMENTS.md
+
+# Virtual environment
+.pytest_cache/
+
+# OS
+desktop.ini
